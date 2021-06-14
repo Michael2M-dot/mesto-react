@@ -11,7 +11,7 @@ const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-
+  const [selectedCard, setSelectedCard] = useState(false);
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -25,6 +25,10 @@ const App = () => {
     setIsEditAvatarPopupOpen(true);
   }
 
+  const handleCardClick =(value) => {
+    setSelectedCard(value)
+  }
+
   const closeAllPopup = (evt) => {
     if(
         evt.target.classList.contains("page__popup") ||
@@ -32,6 +36,7 @@ const App = () => {
           setIsEditProfilePopupOpen(false);
           setIsAddPlacePopupOpen(false);
           setIsEditAvatarPopupOpen(false);
+          setSelectedCard(false)
     }
   }
 
@@ -40,6 +45,7 @@ const App = () => {
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
         setIsEditAvatarPopupOpen(false);
+        setSelectedCard(false)
       }
     }
 
@@ -54,6 +60,7 @@ const App = () => {
             onEditProfile={handleEditProfileClick}
             onEditAvatar={handleEditAvatarClick}
             onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
         />
         <Footer />
       </div>
@@ -83,7 +90,10 @@ const App = () => {
           onClose={closeAllPopup}
       />
 
-      <ImagePopup />
+      <ImagePopup
+        isOpen={selectedCard}
+        onClose={closeAllPopup}
+      />
 
       <template className="element__template" id="cards-template">
         <li className="element elements__list-item">
