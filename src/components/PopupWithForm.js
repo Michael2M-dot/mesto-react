@@ -1,7 +1,4 @@
 import React from "react";
-//user = user-profile
-//avatar = user-avatar
-//card = user-card
 
 function PopupWithForm(props) {
   return (
@@ -52,4 +49,3 @@ function PopupWithForm(props) {
 
 export default PopupWithForm;
 
-// <section className={`popup page__popup section ${props.isOpen ? 'page__popup_visible' : ''}`} id={`edit-${props.name}`}>
