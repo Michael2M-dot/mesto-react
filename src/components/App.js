@@ -6,32 +6,32 @@ import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
 
 
-function App() {
-
+const App = () => {
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isCloseAllPopup, setIsCloseAllPopup] = useState(true);
 
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
-    // document.querySelector("#edit-profile").classList.add("page__popup_visible");
   }
-  console.log(isEditProfilePopupOpen);
 
-  function handleAddPlaceClick() {
+  const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
-    document.querySelector("#add-place").classList.add("page__popup_visible");
   }
-  console.log(isAddPlacePopupOpen)
 
-  function handleEditAvatarClick() {
+  const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
-    document.querySelector("#add-avatar").classList.add("page__popup_visible");
   }
-  console.log(isEditAvatarPopupOpen)
 
+  const closeAllPopup = (evt) => {
+    setIsCloseAllPopup(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+  }
 
   return (
     <div className="page">
@@ -41,17 +41,45 @@ function App() {
             onEditProfile={handleEditProfileClick}
             onEditAvatar={handleEditAvatarClick}
             onAddPlace={handleAddPlaceClick}
+
         />
         <Footer />
       </div>
 
-      {/*{isEditProfilePopupOpen && <PopupWithForm isOpen={isEditProfilePopupOpen} />}*/}
 
       <PopupWithForm
           name={'user-profile'}
           title={'Редактировать профиль'}
           button={'Сохранить'}
           isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopup}
+      />
+
+
+      <PopupWithForm
+          name={'user-card'}
+          title={'Новое место'}
+          button={'Создать'}
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopup}
+      />
+
+
+      <PopupWithForm
+          name={'user-card'}
+          title={'Обновить аватар'}
+          button={'Сохранить'}
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopup}
+      />
+
+
+      <PopupWithForm
+          name={'delete-user-card'}
+          title={'Вы уверены?'}
+          button={'Да'}
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopup}
       />
 
       <ImagePopup />

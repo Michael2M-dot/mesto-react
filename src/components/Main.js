@@ -1,6 +1,6 @@
 import React from "react";
 
-const Main = ({onEditProfile, onAddPlace, onEditAvatar}) => {
+const Main = (props) => {
 
   return (
     <main className="content page__content section section_size_narrow">
@@ -8,7 +8,7 @@ const Main = ({onEditProfile, onAddPlace, onEditAvatar}) => {
         <div className="profile__user">
           <div
             className="profile__user-avatar"
-            onClick={onEditAvatar}
+            onClick={props.onEditAvatar}
           ></div>
           <div className="profile__user-info profile__user-info_margins_top-bottom profile__user-info_margins_left-right">
             <h1 className="profile__user-name"></h1>
@@ -20,7 +20,7 @@ const Main = ({onEditProfile, onAddPlace, onEditAvatar}) => {
             type="button"
             className="button profile__button-edit"
             id="profile-editBtn"
-            onClick={onEditProfile}
+            onClick={props.onEditProfile}
           ></button>
         </div>
         <button
@@ -28,7 +28,7 @@ const Main = ({onEditProfile, onAddPlace, onEditAvatar}) => {
           tittle="Добавить"
           type="button"
           className="button profile__button-add"
-          onClick={onAddPlace}
+          onClick={props.onAddPlace}
         ></button>
       </section>
       <section className="elements">
