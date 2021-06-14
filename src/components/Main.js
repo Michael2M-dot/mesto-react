@@ -1,13 +1,15 @@
 import React, {useState, useEffect} from "react";
 import api from "../utils/Api";
+import Card from "./Card";
 
 const Main = (props) => {
 
-    const [userName, setUserName] = useState('Не зарегистрированный пользователь')
-    const [userDescription, setUserDescription] = useState('Не зарегистрированный пользователь')
-    const [userAvatar, setUserAvatar] = useState('')
+    const [userName, setUserName] = useState('Не зарегистрированный пользователь');
+    const [userDescription, setUserDescription] = useState('Не зарегистрированный пользователь');
+    const [userAvatar, setUserAvatar] = useState('');
+    const [cards, setCards] = useState([]);
 
-    const handleUserData =() => {
+    useEffect(()=> {
         api
             .getUserData()
             .then((userData) => {
@@ -17,15 +19,25 @@ const Main = (props) => {
             })
             .catch((err) =>
                 console.log(
-                    `Непредвиденная ошибка при начальной загрузке страницы: ${err.status} ${err.statusText}`
+                    `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
                 )
             );
-    }
+    }, [setUserDescription, setUserAvatar, setUserName]);
+
+    useEffect(()=>{
+        api
+            .getInitialCards()
+            .then((initialCards)=>{
+                setCards(initialCards)
+            })
+            .catch((err) =>
+                console.log(
+                    `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
+                )
+            );
+    },[setCards])
 
 
-    useEffect(()=> {
-        handleUserData();
-    }, [])
 
   return (
     <main className="content page__content section section_size_narrow">
@@ -58,7 +70,15 @@ const Main = (props) => {
         ></button>
       </section>
       <section className="elements">
-        <ul className="elements__list"></ul>
+        <ul className="elements__list">
+            {cards.map((card) => {
+                return(
+                    <Card key={card._id} {...card}/>
+                )
+            })}
+
+
+        </ul>
       </section>
     </main>
   );
