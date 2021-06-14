@@ -76,14 +76,12 @@ class Api {
   }
 }
 
-
-
 const api = new Api({
-    serverUrl: "https://mesto.nomoreparties.co/v1/cohort-24",
-    headers: {
-      authorization: "99295e52-decf-4a30-8030-f17c65fb60b0",
-      "Content-Type": "application/json",
-    },
-})
+  serverUrl: "https://mesto.nomoreparties.co/v1/cohort-24",
+  headers: {
+    authorization: "99295e52-decf-4a30-8030-f17c65fb60b0",
+    "Content-Type": "application/json",
+  },
+});
 
-export default api
+export default api;

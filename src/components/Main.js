@@ -1,43 +1,44 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import api from "../utils/Api";
 import Card from "./Card";
 
 const Main = (props) => {
+  const [userName, setUserName] = useState(
+    "Не зарегистрированный пользователь"
+  );
+  const [userDescription, setUserDescription] = useState(
+    "Не зарегистрированный пользователь"
+  );
+  const [userAvatar, setUserAvatar] = useState("");
+  const [cards, setCards] = useState([]);
 
-    const [userName, setUserName] = useState('Не зарегистрированный пользователь');
-    const [userDescription, setUserDescription] = useState('Не зарегистрированный пользователь');
-    const [userAvatar, setUserAvatar] = useState('');
-    const [cards, setCards] = useState([]);
+  useEffect(() => {
+    api
+      .getUserData()
+      .then((userData) => {
+        setUserName(userData.name);
+        setUserDescription(userData.about);
+        setUserAvatar(userData.avatar);
+      })
+      .catch((err) =>
+        console.log(
+          `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
+        )
+      );
+  }, [setUserDescription, setUserAvatar, setUserName]);
 
-    useEffect(()=> {
-        api
-            .getUserData()
-            .then((userData) => {
-                setUserName(userData.name);
-                setUserDescription(userData.about);
-                setUserAvatar(userData.avatar);
-            })
-            .catch((err) =>
-                console.log(
-                    `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
-                )
-            );
-    }, [setUserDescription, setUserAvatar, setUserName]);
-
-    useEffect(()=>{
-        api
-            .getInitialCards()
-            .then((initialCards)=>{
-                setCards(initialCards)
-            })
-            .catch((err) =>
-                console.log(
-                    `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
-                )
-            );
-    },[setCards])
-
-
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((initialCards) => {
+        setCards(initialCards);
+      })
+      .catch((err) =>
+        console.log(
+          `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
+        )
+      );
+  }, [setCards]);
 
   return (
     <main className="content page__content section section_size_narrow">
@@ -71,21 +72,15 @@ const Main = (props) => {
       </section>
       <section className="elements">
         <ul className="elements__list">
-            {cards.map((card) => {
-                return(
-                    <Card
-                        key={card._id}
-                        {...card}
-                        onCardClick={props.onCardClick}
-                    />
-                )
-            })}
+          {cards.map((card) => {
+            return (
+              <Card key={card._id} {...card} onCardClick={props.onCardClick} />
+            );
+          })}
         </ul>
       </section>
     </main>
   );
-}
+};
 
 export default Main;
-
-
