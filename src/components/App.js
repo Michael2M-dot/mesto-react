@@ -11,7 +11,6 @@ const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isCloseAllPopup, setIsCloseAllPopup] = useState(true);
 
 
   const handleEditProfileClick = () => {
@@ -27,21 +26,34 @@ const App = () => {
   }
 
   const closeAllPopup = (evt) => {
-    setIsCloseAllPopup(false);
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
+    if(
+        evt.target.classList.contains("page__popup") ||
+        evt.target.classList.contains("popup__button-close")){
+          setIsEditProfilePopupOpen(false);
+          setIsAddPlacePopupOpen(false);
+          setIsEditAvatarPopupOpen(false);
+    }
   }
 
+  const handleEscClose = (evt) => {
+      if(evt.key === "Escape") {
+        setIsEditProfilePopupOpen(false);
+        setIsAddPlacePopupOpen(false);
+        setIsEditAvatarPopupOpen(false);
+      }
+    }
+
+
   return (
-    <div className="page">
+    <div className="page"
+        onKeyDown={handleEscClose}
+    >
       <div className="page__container">
         <Header />
         <Main
             onEditProfile={handleEditProfileClick}
             onEditAvatar={handleEditAvatarClick}
             onAddPlace={handleAddPlaceClick}
-
         />
         <Footer />
       </div>
@@ -55,30 +67,19 @@ const App = () => {
           onClose={closeAllPopup}
       />
 
-
       <PopupWithForm
-          name={'user-card'}
-          title={'Новое место'}
-          button={'Создать'}
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopup}
-      />
-
-
-      <PopupWithForm
-          name={'user-card'}
+          name={'user-avatar'}
           title={'Обновить аватар'}
           button={'Сохранить'}
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopup}
       />
 
-
       <PopupWithForm
-          name={'delete-user-card'}
-          title={'Вы уверены?'}
-          button={'Да'}
-          isOpen={isEditAvatarPopupOpen}
+          name={'user-card'}
+          title={'Новое место'}
+          button={'Создать'}
+          isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopup}
       />
 
