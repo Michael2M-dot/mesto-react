@@ -1,6 +1,8 @@
 {
   "name": "mesto-react",
   "version": "0.1.0",
+  "description": "Yandex: Учебный проект для отработки навыков владения React",
+  "author": "Michael2M",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",

@@ -21,7 +21,7 @@ const Card = (props) => {
             tittle="Поставить/снять лайк"
             type="button"
             className="element__like"
-          ></button>
+          />
           <p className="element__count">{props.likes.length}</p>
         </div>
       </div>
@@ -31,7 +31,7 @@ const Card = (props) => {
         type="button"
         className="button element__trash element__trash_hidden"
         id="delete-Btn"
-      ></button>
+      />
     </li>
   );
 };

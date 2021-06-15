@@ -1,7 +1,6 @@
 import React from "react";
 
 const ImagePopup = (props) => {
-  console.log(props);
   return (
     <section
       className={`popup page__popup section ${
@@ -18,7 +17,7 @@ const ImagePopup = (props) => {
           className="button popup__button-close popup__button-close_pos_inside"
           id="close-PicturePopup"
           onClick={props.onClose}
-        ></button>
+        />
         <figure className="popup__figure">
           <img
             className="popup__image"

@@ -17,7 +17,7 @@ function PopupWithForm(props) {
           type="button"
           className="button popup__button-close"
           id="close-userPopup"
-        ></button>
+        />
         <form
           className="form"
           id={`${props.name}`}
@@ -48,4 +48,3 @@ function PopupWithForm(props) {
 }
 
 export default PopupWithForm;
-

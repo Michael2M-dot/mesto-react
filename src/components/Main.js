@@ -48,7 +48,7 @@ const Main = (props) => {
             className="profile__user-avatar"
             style={{ backgroundImage: `url(${userAvatar})` }}
             onClick={props.onEditAvatar}
-          ></div>
+          />
           <div className="profile__user-info profile__user-info_margins_top-bottom profile__user-info_margins_left-right">
             <h1 className="profile__user-name">{userName}</h1>
             <p className="profile__user-job">{userDescription}</p>
@@ -60,7 +60,7 @@ const Main = (props) => {
             className="button profile__button-edit"
             id="profile-editBtn"
             onClick={props.onEditProfile}
-          ></button>
+          />
         </div>
         <button
           arial-lable="Открыть форму для добавления фотографий на страницу"
@@ -68,7 +68,7 @@ const Main = (props) => {
           type="button"
           className="button profile__button-add"
           onClick={props.onAddPlace}
-        ></button>
+        />
       </section>
       <section className="elements">
         <ul className="elements__list">
