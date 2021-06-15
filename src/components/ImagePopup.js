@@ -1,6 +1,9 @@
 import React from "react";
 
 const ImagePopup = (props) => {
+  const placeName = props.data.name;
+  const placeLink = props.data.link;
+
   return (
     <section
       className={`popup page__popup section ${
@@ -21,11 +24,11 @@ const ImagePopup = (props) => {
         <figure className="popup__figure">
           <img
             className="popup__image"
-            src={props.isOpen.link}
-            alt={`Нам очень жаль что вы не можете увидеть изображение этого красивого места ${props.isOpen.name}`}
+            src={placeLink}
+            alt={`Нам очень жаль что вы не можете увидеть изображение этого красивого места ${placeName}`}
           />
           <figcaption className="popup__caption">
-            {props.isOpen.name}
+            {placeName}
           </figcaption>
         </figure>
       </div>
