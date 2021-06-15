@@ -10,8 +10,8 @@ const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState( false)
-  const [selectedCardData, setSelectedCardData] = useState({})//стэйт создан для хранения данных о карточке, без него после закрытия зависает окно с alt
+  const [selectedCard, setSelectedCard] = useState(false);
+  const [selectedCardData, setSelectedCardData] = useState({}); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -27,7 +27,7 @@ const App = () => {
 
   const handleCardClick = (value) => {
     setSelectedCard(true);
-    setSelectedCardData(value)
+    setSelectedCardData(value);
   };
 
   const closeAllPopup = () => {
@@ -39,7 +39,7 @@ const App = () => {
 
   const handleEscClose = (evt) => {
     if (evt.key === "Escape") {
-      closeAllPopup()
+      closeAllPopup();
     }
   };
 
@@ -136,7 +136,11 @@ const App = () => {
         />
       </PopupWithForm>
 
-      <ImagePopup isOpen={selectedCard} data={selectedCardData} onClose={closeAllPopup} />
+      <ImagePopup
+        isOpen={selectedCard}
+        data={selectedCardData}
+        onClose={closeAllPopup}
+      />
     </div>
   );
 };

@@ -27,9 +27,7 @@ const ImagePopup = (props) => {
             src={placeLink}
             alt={`Нам очень жаль что вы не можете увидеть изображение этого красивого места ${placeName}`}
           />
-          <figcaption className="popup__caption">
-            {placeName}
-          </figcaption>
+          <figcaption className="popup__caption">{placeName}</figcaption>
         </figure>
       </div>
     </section>
