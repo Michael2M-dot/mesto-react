@@ -29,10 +29,10 @@ const App = () => {
   };
 
   const closeAllPopup = () => {
-      setIsEditProfilePopupOpen(false);
-      setIsEditAvatarPopupOpen(false);
-      setIsAddPlacePopupOpen(false);
-      setSelectedCard(false);
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setSelectedCard(false);
   };
 
   const handleEscClose = (evt) => {
@@ -41,10 +41,16 @@ const App = () => {
     }
   };
 
+  useEffect(() => {
+    document.addEventListener("keydown", handleEscClose, false);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose, false);
+    };
+  }, []);
+
   return (
-    <div className="page"
-         onKeyUp={handleEscClose}
-    >
+    <div className="page" onKeyDown={handleEscClose}>
       <div className="page__container">
         <Header />
         <Main
