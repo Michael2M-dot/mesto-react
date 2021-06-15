@@ -13,7 +13,7 @@ const Input = (props) => {
         maxLength={props.maxLength}
         minLength={props.minLength}
       />
-      <span className="form__input-error" id={`${props.name}-input-error`} />
+      <span className="form__input-error" id={`${props.id}-input-error`} />
     </label>
   );
 };

@@ -28,29 +28,23 @@ const App = () => {
     setSelectedCard(value);
   };
 
-  const closeAllPopup = (evt) => {
-    if (
-      evt.target.classList.contains("page__popup") ||
-      evt.target.classList.contains("popup__button-close")
-    ) {
+  const closeAllPopup = () => {
       setIsEditProfilePopupOpen(false);
-      setIsAddPlacePopupOpen(false);
       setIsEditAvatarPopupOpen(false);
+      setIsAddPlacePopupOpen(false);
       setSelectedCard(false);
-    }
   };
 
   const handleEscClose = (evt) => {
     if (evt.key === "Escape") {
-      setIsEditProfilePopupOpen(false);
-      setIsAddPlacePopupOpen(false);
-      setIsEditAvatarPopupOpen(false);
-      setSelectedCard(false);
+      closeAllPopup();
     }
   };
 
   return (
-    <div className="page" onKeyDown={handleEscClose}>
+    <div className="page"
+         onKeyUp={handleEscClose}
+    >
       <div className="page__container">
         <Header />
         <Main
