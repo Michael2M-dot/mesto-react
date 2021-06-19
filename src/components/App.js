@@ -54,14 +54,14 @@ const App = () => {
   return (
     <div className="page" onKeyDown={handleEscClose}>
       <div className="page__container">
-        <Header />
+        <Header mix={"page__header section"}/>
         <Main
           onEditProfile={handleEditProfileClick}
           onEditAvatar={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
         />
-        <Footer />
+        <Footer mix={"page__footer"}/>
       </div>
 
       <PopupWithForm

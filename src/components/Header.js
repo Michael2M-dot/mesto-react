@@ -1,9 +1,10 @@
 import mestoLogo from "../images/mesto_logo.svg";
+import cx from 'classnames';
 import React from "react";
 
-function Header() {
+function Header({mix}) {
   return (
-    <header className="header page__header section">
+    <header className={cx(mix, 'header')}>
       <a href="#" className="logo" target="_self">
         <img src={mestoLogo} alt="Логотип MESTO" className="header__logo" />
       </a>
