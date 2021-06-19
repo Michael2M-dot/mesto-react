@@ -1,8 +1,10 @@
 .popup__image {
+  display: block;
+
   max-width: 75vmin;
   max-height: 75vmin;
   margin: 0;
   padding: 0;
-  display: block;
+
   color: var(--color__main-text_profile);
 }

@@ -1,10 +1,12 @@
 .page {
-  background-color: var(--color__background);
-  color: var(--color__main-text_profile);
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  color: var(--color__main-text_profile);
+  background-color: var(--color__background);
+
   font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 400;
 }

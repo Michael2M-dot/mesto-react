@@ -1,19 +1,20 @@
 .page__container {
-  width: 100%;
-  min-width: 320px;
-  max-width: 880px;
-  min-height: 100vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -ms-flex-align: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
   justify-content: flex-start;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
+
+  width: 100%;
+  min-width: 320px;
+  max-width: 880px;
+  min-height: 100vh;
   margin: 0 auto;
   padding-top: 45px;
   padding-bottom: 60px;

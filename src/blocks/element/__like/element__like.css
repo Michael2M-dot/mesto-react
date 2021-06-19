@@ -1,22 +1,26 @@
 .element__like {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border: none;
-  outline: none; /*убирает подводку контура после клика*/
-  background-image: url(../../../images/element_like.svg);
-  background-position: center;
-  background-size: cover;
-  background-color: transparent;
-  cursor: pointer;
-  height: 19px;
   width: 22px;
+  height: 19px;
+
+  cursor: pointer;
   -webkit-transition: opacity 0.1s ease-in-out 0.1s, scale 1s ease-in-out 1s;
   -o-transition: opacity 0.1s ease-in-out 0.1s, scale 0.1s ease-in-out 0.1s;
   transition: opacity 0.1s ease-in-out 0.1s, scale 0.1s ease-in-out 0.1s;
+
+  border: none;
+  outline: none; /*убирает подводку контура после клика*/
+  background-color: transparent;
+  background-image: url(../../../images/element_like.svg);
+  background-position: center;
+  background-size: cover;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .element__like:hover {
-  opacity: 0.5;
   transform: scale(1.2);
+
+  opacity: 0.5;
 }

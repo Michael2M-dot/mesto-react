@@ -1,10 +1,11 @@
 .form__fieldset {
-  width: 100%;
-  min-height: 52px;
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+
+  width: 100%;
+  min-height: 52px;
 }
 
 .form__fieldset:last-of-type {

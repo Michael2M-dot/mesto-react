@@ -1,19 +1,24 @@
 .profile__user-job {
-  width: 100%;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 22px;
-  white-space: nowrap;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
   overflow: hidden;
+
+  width: 100%;
   margin: 0;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+
+  -o-text-overflow: ellipsis;
 }
 
 @media screen and (max-width: 767px) {
   .profile__user-job {
+    text-align: center;
+
     font-size: 14px;
     line-height: 17px;
-    text-align: center;
   }
 }
