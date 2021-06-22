@@ -37,22 +37,24 @@ const App = () => {
     setSelectedCard(false);
   };
 
-  const handleEscClose = (evt) => {
-    if (evt.key === "Escape") {
-      closeAllPopup();
-    }
-  };
 
-  useEffect(() => {
-    document.addEventListener("keydown", handleEscClose, false);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscClose, false);
-    };
-  }, []);
+  // const handleEscClose = (evt) => {
+  //   if (evt.key === "Escape") {
+  //     closeAllPopup();
+  //     console.log("Hello")
+  //   }
+  // };
+  //
+  // useEffect(() => {
+  //   document.addEventListener("keydown", handleEscClose, {once: true});
+  //
+  //   return () => {
+  //     document.removeEventListener("keydown", handleEscClose);
+  //   };
+  // }, []);
 
   return (
-    <div className="page" onKeyDown={handleEscClose}>
+    <div className="page">
       <div className="page__container">
         <Header mix={"page__header section"}/>
         <Main
