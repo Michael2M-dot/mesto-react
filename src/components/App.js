@@ -37,21 +37,25 @@ const App = () => {
     setSelectedCard(false);
   };
 
+  const handleEscClose = (evt) => {
+    if (evt.key === "Escape") {
+      closeAllPopup();
+      console.log("Hello")
+    }
+  };
 
-  // const handleEscClose = (evt) => {
-  //   if (evt.key === "Escape") {
-  //     closeAllPopup();
-  //     console.log("Hello")
-  //   }
-  // };
-  //
-  // useEffect(() => {
-  //   document.addEventListener("keydown", handleEscClose, {once: true});
-  //
-  //   return () => {
-  //     document.removeEventListener("keydown", handleEscClose);
-  //   };
-  // }, []);
+  useEffect(() => {
+    if(isEditProfilePopupOpen ||
+        isAddPlacePopupOpen ||
+        isEditAvatarPopupOpen ||
+        selectedCard){
+      document.addEventListener("keydown", handleEscClose, {once: true});
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, selectedCard]);
 
   return (
     <div className="page">
