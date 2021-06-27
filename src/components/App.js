@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
 import Input from "./Input";
+import api from "../utils/Api";
 
 const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -12,6 +13,21 @@ const App = () => {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(false);
   const [selectedCardData, setSelectedCardData] = useState({}); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
+  const [currentUser, setCurrentUser] = useState({})
+
+  useEffect(()=> {
+    api
+        .getUserData()
+        .then((userData) => {
+          setCurrentUser({userData})
+        })
+        .catch((err)=>{
+          console.log(
+              `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
+          )
+        })
+  })
+
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
