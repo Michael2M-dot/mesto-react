@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header.js";
 import Main from "./Main";
 import Footer from "./Footer";
+import EditProfilePopup from "./EditProfilePopup";
 import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
 import Input from "./Input";
@@ -52,7 +53,7 @@ const App = () => {
     setSelectedCardData(value);
   };
 
-  const closeAllPopup = () => {
+  const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -61,7 +62,7 @@ const App = () => {
 
   const handleEscClose = (evt) => {
     if (evt.key === "Escape") {
-      closeAllPopup();
+      closeAllPopups();
     }
   };
 
@@ -93,39 +94,45 @@ const App = () => {
                   <Footer mix={"page__footer"}/>
               </div>
 
-              <PopupWithForm
-                  name={"user-profile"}
-                  title={"Редактировать профиль"}
-                  button={"Сохранить"}
+              <EditProfilePopup
                   isOpen={isEditProfilePopupOpen}
-                  onClose={closeAllPopup}
-              >
-                  <Input
-                      type={"text"}
-                      id={"user-name"}
-                      placeholder={"Имя"}
-                      name={"userNameInput"}
-                      required={true}
-                      maxLength={"40"}
-                      minLength={"2"}
-                  />
-                  <Input
-                      type={"text"}
-                      id={"user-job"}
-                      placeholder={"О себе"}
-                      name={"userJobInput"}
-                      required={true}
-                      maxLength={"200"}
-                      minLength={"2"}
-                  />
-              </PopupWithForm>
+                  onClose={closeAllPopups}
+
+              />
+
+              {/*<PopupWithForm*/}
+              {/*    name={"user-profile"}*/}
+              {/*    title={"Редактировать профиль"}*/}
+              {/*    button={"Сохранить"}*/}
+              {/*    isOpen={isEditProfilePopupOpen}*/}
+              {/*    onClose={closeAllPopup}*/}
+              {/*>*/}
+              {/*    <Input*/}
+              {/*        type={"text"}*/}
+              {/*        id={"user-name"}*/}
+              {/*        placeholder={"Имя"}*/}
+              {/*        name={"userNameInput"}*/}
+              {/*        required={true}*/}
+              {/*        maxLength={"40"}*/}
+              {/*        minLength={"2"}*/}
+              {/*    />*/}
+              {/*    <Input*/}
+              {/*        type={"text"}*/}
+              {/*        id={"user-job"}*/}
+              {/*        placeholder={"О себе"}*/}
+              {/*        name={"userJobInput"}*/}
+              {/*        required={true}*/}
+              {/*        maxLength={"200"}*/}
+              {/*        minLength={"2"}*/}
+              {/*    />*/}
+              {/*</PopupWithForm>*/}
 
               <PopupWithForm
                   name={"user-avatar"}
                   title={"Обновить аватар"}
                   button={"Сохранить"}
                   isOpen={isEditAvatarPopupOpen}
-                  onClose={closeAllPopup}
+                  onClose={closeAllPopups}
               >
                   <Input
                       type={"url"}
@@ -143,7 +150,7 @@ const App = () => {
                   title={"Новое место"}
                   button={"Создать"}
                   isOpen={isAddPlacePopupOpen}
-                  onClose={closeAllPopup}
+                  onClose={closeAllPopups}
               >
                   <Input
                       type={"text"}
@@ -168,7 +175,7 @@ const App = () => {
               <ImagePopup
                   isOpen={selectedCard}
                   data={selectedCardData}
-                  onClose={closeAllPopup}
+                  onClose={closeAllPopups}
               />
           </div>
       </CurrentUserContext.Provider>

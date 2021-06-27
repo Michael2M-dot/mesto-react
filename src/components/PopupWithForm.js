@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 
 function PopupWithForm(props) {
 
@@ -8,7 +8,7 @@ function PopupWithForm(props) {
         props.isOpen ? "page__popup_visible" : ""
       }`}
       id={`edit-${props.name}`}
-      onClick={props.onClose}
+      // onClick={props.onClose}
     >
       <div className="popup__window popup__window_size_s">
         <h2 className="popup__title">{props.title}</h2>

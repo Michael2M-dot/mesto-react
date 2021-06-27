@@ -5,6 +5,7 @@ const Input = (props) => {
     <label className="form__fieldset" htmlFor={`${props.id}-input`}>
       <input
         type={props.type}
+        value={props.value}
         className="form__input"
         id={`${props.id}-input`}
         name={props.name}
@@ -12,6 +13,7 @@ const Input = (props) => {
         required={props.required}
         maxLength={props.maxLength}
         minLength={props.minLength}
+        onChange={props.onChange}
       />
       <span className="form__input-error" id={`${props.id}-input-error`} />
     </label>
