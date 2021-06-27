@@ -6,7 +6,9 @@ import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
 import Input from "./Input";
 import api from "../utils/Api";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CardContext } from "../contexts/CardContext";
+import Card from "./Card";
 
 const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -14,8 +16,10 @@ const App = () => {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(false);
   const [selectedCardData, setSelectedCardData] = useState({}); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
-  const [currentUser, setCurrentUser] = useState({})
+  const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([])
 
+  //    получаем данные о пользователе и записываем в стэйт переменную
   useEffect(()=> {
     api
         .getUserData()
@@ -27,7 +31,21 @@ const App = () => {
               `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
           )
         })
-  },[setCurrentUser])
+  },[setCurrentUser]);
+
+  //получаем массив исходных карточек
+  useEffect(()=> {
+      api
+          .getInitialCards()
+          .then ((initialCards) => {
+              setCards(initialCards)
+          })
+          .catch((err) => {
+              console.log(
+                  `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
+              )
+          })
+  }, [setCards]);
 
 
   const handleEditProfileClick = () => {
@@ -57,7 +75,6 @@ const App = () => {
   const handleEscClose = (evt) => {
     if (evt.key === "Escape") {
       closeAllPopup();
-      console.log("Hello")
     }
   };
 
@@ -75,16 +92,20 @@ const App = () => {
   }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, selectedCard]);
 
   return (
+
       <CurrentUserContext.Provider value={currentUser}>
           <div className="page">
               <div className="page__container">
                   <Header mix={"page__header section"}/>
-                  <Main
-                      onEditProfile={handleEditProfileClick}
-                      onEditAvatar={handleEditAvatarClick}
-                      onAddPlace={handleAddPlaceClick}
-                      onCardClick={handleCardClick}
-                  />
+                  <CardContext.Provider value={cards}>
+                      <Main
+                          onEditProfile={handleEditProfileClick}
+                          onEditAvatar={handleEditAvatarClick}
+                          onAddPlace={handleAddPlaceClick}
+                          onCardClick={handleCardClick}
+                      />
+                  </CardContext.Provider>
+
                   <Footer mix={"page__footer"}/>
               </div>
 

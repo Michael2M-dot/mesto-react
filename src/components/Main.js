@@ -1,24 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
 import api from "../utils/Api";
 import Card from "./Card";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CardContext } from "../contexts/CardContext";
 
 const Main = (props) => {
-  const [cards, setCards] = useState([]);
-  const currentUser = useContext(CurrentUserContext);
 
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((initialCards) => {
-        setCards(initialCards);
-      })
-      .catch((err) =>
-        console.log(
-          `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
-        )
-      );
-  }, [setCards]);
+  const currentUser = useContext(CurrentUserContext);
+  const cards = useContext(CardContext);
+
+  console.log(cards)
+  // useEffect(() => {
+  //   api
+  //     .getInitialCards()
+  //     .then((initialCards) => {
+  //       setCards(initialCards);
+  //     })
+  //     .catch((err) =>
+  //       console.log(
+  //         `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
+  //       )
+  //     );
+  // }, [setCards]);
 
   return (
     <main className="content page__content section section_size_narrow">
