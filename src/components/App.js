@@ -53,11 +53,16 @@ const App = () => {
     setSelectedCardData(value);
   };
 
-  const closeAllPopups = () => {
-    setIsEditProfilePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setSelectedCard(false);
+  const closeAllPopups = (evt) => {
+      if (
+          evt.target.classList.contains("page__popup") ||
+          evt.target.classList.contains("popup__button-close")
+      ) {
+          setIsEditProfilePopupOpen(false);
+          setIsEditAvatarPopupOpen(false);
+          setIsAddPlacePopupOpen(false);
+          setSelectedCard(false);
+      }
   };
 
   const handleEscClose = (evt) => {
@@ -97,35 +102,7 @@ const App = () => {
               <EditProfilePopup
                   isOpen={isEditProfilePopupOpen}
                   onClose={closeAllPopups}
-
               />
-
-              {/*<PopupWithForm*/}
-              {/*    name={"user-profile"}*/}
-              {/*    title={"Редактировать профиль"}*/}
-              {/*    button={"Сохранить"}*/}
-              {/*    isOpen={isEditProfilePopupOpen}*/}
-              {/*    onClose={closeAllPopup}*/}
-              {/*>*/}
-              {/*    <Input*/}
-              {/*        type={"text"}*/}
-              {/*        id={"user-name"}*/}
-              {/*        placeholder={"Имя"}*/}
-              {/*        name={"userNameInput"}*/}
-              {/*        required={true}*/}
-              {/*        maxLength={"40"}*/}
-              {/*        minLength={"2"}*/}
-              {/*    />*/}
-              {/*    <Input*/}
-              {/*        type={"text"}*/}
-              {/*        id={"user-job"}*/}
-              {/*        placeholder={"О себе"}*/}
-              {/*        name={"userJobInput"}*/}
-              {/*        required={true}*/}
-              {/*        maxLength={"200"}*/}
-              {/*        minLength={"2"}*/}
-              {/*    />*/}
-              {/*</PopupWithForm>*/}
 
               <PopupWithForm
                   name={"user-avatar"}

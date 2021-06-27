@@ -8,7 +8,7 @@ function PopupWithForm(props) {
         props.isOpen ? "page__popup_visible" : ""
       }`}
       id={`edit-${props.name}`}
-      // onClick={props.onClose}
+      onClick={props.onClose}
     >
       <div className="popup__window popup__window_size_s">
         <h2 className="popup__title">{props.title}</h2>
@@ -18,6 +18,7 @@ function PopupWithForm(props) {
           type="button"
           className="button popup__button-close"
           id="close-userPopup"
+          onClick={props.onClose}
         />
         <form
           className="form"
