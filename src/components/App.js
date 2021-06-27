@@ -7,7 +7,7 @@ import PopupWithForm from "./PopupWithForm";
 import Input from "./Input";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CardContext } from "../contexts/CardContext";
+
 
 
 const App = () => {
@@ -17,7 +17,6 @@ const App = () => {
   const [selectedCard, setSelectedCard] = useState(false);
   const [selectedCardData, setSelectedCardData] = useState({}); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
   const [currentUser, setCurrentUser] = useState({});
-  const [cards, setCards] = useState([])
 
   //    получаем данные о пользователе и записываем в стэйт переменную
   useEffect(()=> {
@@ -33,19 +32,7 @@ const App = () => {
         })
   },[setCurrentUser]);
 
-  //получаем массив исходных карточек
-  useEffect(()=> {
-      api
-          .getInitialCards()
-          .then ((initialCards) => {
-              setCards(initialCards)
-          })
-          .catch((err) => {
-              console.log(
-                  `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
-              )
-          })
-  }, [setCards]);
+
 
 
   const handleEditProfileClick = () => {
@@ -97,15 +84,12 @@ const App = () => {
           <div className="page">
               <div className="page__container">
                   <Header mix={"page__header section"}/>
-                  <CardContext.Provider value={cards}>
                       <Main
                           onEditProfile={handleEditProfileClick}
                           onEditAvatar={handleEditAvatarClick}
                           onAddPlace={handleAddPlaceClick}
                           onCardClick={handleCardClick}
                       />
-                  </CardContext.Provider>
-
                   <Footer mix={"page__footer"}/>
               </div>
 

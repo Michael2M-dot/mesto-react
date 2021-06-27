@@ -5,11 +5,39 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CardContext } from "../contexts/CardContext";
 
 const Main = (props) => {
-
   const currentUser = useContext(CurrentUserContext);
-  const cards = useContext(CardContext);
+
+  const [cards, setCards] = useState([])
+
+  //получаем массив исходных карточек
+  useEffect(()=> {
+    api
+        .getInitialCards()
+        .then ((initialCards) => {
+          setCards(initialCards)
+        })
+        .catch((err) => {
+          console.log(
+              `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
+          )
+        })
+  }, [setCards]);
 
   console.log(cards)
+
+  //функция управления лайками на карточке
+  const handleCardLike = (card) => {
+    const isLiked = card.likes.some(i => i._id === currentUser._id)
+
+    api
+        .changeLikeCardStatus(card._id, !isLiked)
+        .then((res) => {
+          setCards((items) => items.map((item) => item._id === card._id ? res : item))
+        })
+        .catch((err) => {
+          console.log (`Ошибка при установке лайка: ${err.status} ${err.statusText}`)
+        })
+  }
 
 
   return (
@@ -42,15 +70,17 @@ const Main = (props) => {
           onClick={props.onAddPlace}
         />
       </section>
-      <section className="elements">
-        <ul className="elements__list">
-          {cards.map((card) => {
-            return (
-              <Card key={card._id} card={card} onCardClick={props.onCardClick} />
-            );
-          })}
-        </ul>
-      </section>
+        <section className="elements">
+          <ul className="elements__list">
+            {cards.map((card) => {
+              return (
+                  <CardContext.Provider value={card}>
+                    <Card key={card._id} onCardClick={props.onCardClick} onCardLike={handleCardLike}/>
+                  </CardContext.Provider>
+              );
+            })}
+          </ul>
+        </section>
     </main>
   );
 };

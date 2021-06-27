@@ -65,6 +65,14 @@ class Api {
     }).then((res) => this._checkStatus(res));
   }
 
+  changeLikeCardStatus(id, cardIsLiked) {
+    return fetch(`${this._serverUrl}/cards/likes/${id}`, {
+      method: cardIsLiked ? "PUT" : "DELETE",
+      headers: this._headers,
+    }).then((res) => this._checkStatus(res));
+  }
+
+
   updateAvatar(data) {
     return fetch(`${this._serverUrl}/users/me/avatar`, {
       method: "PATCH",
