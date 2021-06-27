@@ -34,8 +34,6 @@ const App = () => {
   },[setCurrentUser]);
 
 
-
-
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   };
@@ -65,24 +63,47 @@ const App = () => {
       }
   };
 
+  //закрытие попапов по нажатию ESC
   const handleEscClose = (evt) => {
     if (evt.key === "Escape") {
       closeAllPopups();
     }
   };
 
+  //установка слушателя для закрытия попапа по ESC
   useEffect(() => {
-    if(isEditProfilePopupOpen ||
-        isAddPlacePopupOpen ||
-        isEditAvatarPopupOpen ||
-        selectedCard){
-      document.addEventListener("keydown", handleEscClose, {once: true});
-    }
+      if (isEditProfilePopupOpen ||
+          isAddPlacePopupOpen ||
+          isEditAvatarPopupOpen ||
+          selectedCard) {
+          document.addEventListener("keydown", handleEscClose, {once: true});
+      }
 
     return () => {
       document.removeEventListener("keydown", handleEscClose);
     };
   }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, selectedCard]);
+
+
+    //функция обновления информации о пользователе
+    const handleUserUpdate = (data) => {
+        console.log(data.name, data.about)
+        api
+            .updateUserData(data)
+            .then(()=> {
+                setCurrentUser(data)
+            })
+            .catch((err)=>{
+                console.log(
+                    `Непредвиденная ошибка при передаче на сервер данных пользователя: ${err.status} ${err.statusText}`
+                )
+            })
+            .finally(()=>{
+                setIsEditProfilePopupOpen(false);;
+            })
+    }
+
+
 
   return (
 
@@ -102,6 +123,7 @@ const App = () => {
               <EditProfilePopup
                   isOpen={isEditProfilePopupOpen}
                   onClose={closeAllPopups}
+                  onUpdateUser={handleUserUpdate}
               />
 
               <PopupWithForm

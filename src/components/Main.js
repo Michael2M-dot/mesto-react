@@ -36,7 +36,7 @@ const Main = (props) => {
         .catch((err) => {
           console.log (`Ошибка при установке лайка: ${err.status} ${err.statusText}`)
         })
-  }
+  };
 
   //функция удаления карточки пользователя
     const handleCardDelete = (card) => {
@@ -49,7 +49,7 @@ const Main = (props) => {
             .catch((err) => {
                 console.log (`Ошибка при удалении карточки: ${err.status} ${err.statusText}`)
             })
-    }
+    };
 
 
   return (

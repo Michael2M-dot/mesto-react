@@ -30,8 +30,8 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.userNameInput,
-        about: data.userJobInput,
+        name: data.name,
+        about: data.about,
         _id: data._id,
         avatar: data.avatar,
       }),

@@ -7,24 +7,31 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 const EditProfilePopup =(props) => {
 	const currentUser = useContext(CurrentUserContext);
 
-	const [name, setName] = useState('')
-	const [description, setDescription] = useState('')
+	const [name, setName] = useState('');
+	const [description, setDescription] = useState('');
 
 	useEffect(()=> {
 		setName(currentUser.name);
 		setDescription(currentUser.about);
-	},[currentUser])
-
-	console.log(name)
-	console.log(description)
+	},[currentUser]);
 
 	const handleChangeName = (e) => {
 		setName(e.target.value)
-	}
+	};
 
 	const handleChangeDescription = (e) => {
 		setDescription(e.target.value)
-	}
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		props.onUpdateUser({
+			name,
+			about: description
+			}
+		);
+	};
 
 	return (
 		<PopupWithForm
@@ -33,6 +40,7 @@ const EditProfilePopup =(props) => {
 			button={"Сохранить"}
 			isOpen={props.isOpen}
 			onClose={props.onClose}
+			onSubmit={handleSubmit}
 		>
 			<Input
 				type={"text"}

@@ -26,6 +26,7 @@ function PopupWithForm(props) {
           name="userProfileForm"
           autoComplete="off"
           noValidate
+          onSubmit={props.onSubmit}
         >
           {props.children}
           <button
