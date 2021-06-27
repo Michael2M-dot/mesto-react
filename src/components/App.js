@@ -20,14 +20,14 @@ const App = () => {
     api
         .getUserData()
         .then((userData) => {
-          setCurrentUser({userData})
+          setCurrentUser(userData)
         })
         .catch((err)=>{
           console.log(
               `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
           )
         })
-  })
+  },[setCurrentUser])
 
 
   const handleEditProfileClick = () => {

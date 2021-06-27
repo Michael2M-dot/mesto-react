@@ -1,31 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import api from "../utils/Api";
 import Card from "./Card";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 const Main = (props) => {
-  const [userName, setUserName] = useState(
-    "Не зарегистрированный пользователь"
-  );
-  const [userDescription, setUserDescription] = useState(
-    "Не зарегистрированный пользователь"
-  );
-  const [userAvatar, setUserAvatar] = useState("");
   const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    api
-      .getUserData()
-      .then((userData) => {
-        setUserName(userData.name);
-        setUserDescription(userData.about);
-        setUserAvatar(userData.avatar);
-      })
-      .catch((err) =>
-        console.log(
-          `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
-        )
-      );
-  }, [setUserDescription, setUserAvatar, setUserName]);
+  const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     api
@@ -46,12 +26,12 @@ const Main = (props) => {
         <div className="profile__user">
           <div
             className="profile__user-avatar"
-            style={{ backgroundImage: `url(${userAvatar})` }}
+            style={{ backgroundImage: `url(${currentUser.avatar})` }}
             onClick={props.onEditAvatar}
           />
           <div className="profile__user-info profile__user-info_margins_top-bottom profile__user-info_margins_left-right">
-            <h1 className="profile__user-name">{userName}</h1>
-            <p className="profile__user-job">{userDescription}</p>
+            <h1 className="profile__user-name">{currentUser.name}</h1>
+            <p className="profile__user-job">{currentUser.about}</p>
           </div>
           <button
             arial-lable="Открыть форму для изменения данных о пользователе"
