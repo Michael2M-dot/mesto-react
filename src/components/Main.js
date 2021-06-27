@@ -10,18 +10,7 @@ const Main = (props) => {
   const cards = useContext(CardContext);
 
   console.log(cards)
-  // useEffect(() => {
-  //   api
-  //     .getInitialCards()
-  //     .then((initialCards) => {
-  //       setCards(initialCards);
-  //     })
-  //     .catch((err) =>
-  //       console.log(
-  //         `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
-  //       )
-  //     );
-  // }, [setCards]);
+
 
   return (
     <main className="content page__content section section_size_narrow">
@@ -57,7 +46,7 @@ const Main = (props) => {
         <ul className="elements__list">
           {cards.map((card) => {
             return (
-              <Card key={card._id} {...card} onCardClick={props.onCardClick} />
+              <Card key={card._id} card={card} onCardClick={props.onCardClick} />
             );
           })}
         </ul>
