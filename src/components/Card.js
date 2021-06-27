@@ -11,13 +11,24 @@ const Card = (props) => {
     props.onCardClick(card);
   };
 
+    //добавляем видимость для лайка, если его установил пользователь и функционал по клику
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    const cardLikeButtonClassName =(`element__like ${isLiked ? 'element__like_active' : ''}`)
+
     const handleLikeClick = () => {
         props.onCardLike(card);
     }
 
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+  //  добавляем видимость корзины удаления для карточки пользователя и функционал по клику
+    const isOwn = card.owner._id ===currentUser._id;
 
-    const cardLikeButtonClassName =(`element__like ${isLiked ? 'element__like_active' : ''}`)
+    const cardDeleteButtonClassName =(`button element__trash ${isOwn ? '' : 'element__trash_hidden'}`)
+
+    const handleDeleteClickClick = () => {
+        props.onCardDelete(card);
+    }
+
 
   return (
     <li key={card._id} className="element elements__list-item">
@@ -44,8 +55,9 @@ const Card = (props) => {
         arial-lable="Удалить карточку со страницы"
         tittle="Удалить"
         type="button"
-        className="button element__trash element__trash_hidden"
+        className={cardDeleteButtonClassName}
         id="delete-Btn"
+        onClick={handleDeleteClickClick}
       />
     </li>
   );
