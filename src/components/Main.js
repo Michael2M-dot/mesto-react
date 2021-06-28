@@ -7,49 +7,53 @@ import { CardContext } from "../contexts/CardContext";
 const Main = (props) => {
   const currentUser = useContext(CurrentUserContext);
 
-  const [cards, setCards] = useState([])
+  const [cards, setCards] = useState([]);
 
   //получаем массив исходных карточек
-  useEffect(()=> {
+  useEffect(() => {
     api
-        .getInitialCards()
-        .then ((cards) => {
-          setCards(cards)
-        })
-        .catch((err) => {
-          console.log(
-              `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
-          )
-        })
+      .getInitialCards()
+      .then((cards) => {
+        setCards(cards);
+      })
+      .catch((err) => {
+        console.log(
+          `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
+        );
+      });
   }, [setCards]);
-
 
   //функция управления лайками на карточке
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some(user => user._id === currentUser._id)
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
 
     api
-        .changeLikeCardStatus(card._id, !isLiked)
-        .then((newCard) => {
-          setCards((items) => items.map((item) => item._id === card._id ? newCard : item))
-        })
-        .catch((err) => {
-          console.log (`Ошибка при установке лайка: ${err.status} ${err.statusText}`)
-        })
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((items) =>
+          items.map((item) => (item._id === card._id ? newCard : item))
+        );
+      })
+      .catch((err) => {
+        console.log(
+          `Ошибка при установке лайка: ${err.status} ${err.statusText}`
+        );
+      });
   };
 
   //функция удаления карточки пользователя
-    const handleCardDelete = (card) => {
-
-        api
-            .deleteCard(card._id)
-            .then (() => {
-                setCards(cards.filter((item) => item._id !== card._id))
-            })
-            .catch((err) => {
-                console.log (`Ошибка при удалении карточки: ${err.status} ${err.statusText}`)
-            })
-    };
+  const handleCardDelete = (card) => {
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards(cards.filter((item) => item._id !== card._id));
+      })
+      .catch((err) => {
+        console.log(
+          `Ошибка при удалении карточки: ${err.status} ${err.statusText}`
+        );
+      });
+  };
 
 
   return (
@@ -82,22 +86,20 @@ const Main = (props) => {
           onClick={props.onAddPlace}
         />
       </section>
-        <section className="elements">
-          <ul className="elements__list">
-            {cards.map((card) => {
-              return (
-                  <CardContext.Provider value={card}>
-                    <Card
-                        key={card._id}
-                        onCardClick={props.onCardClick}
-                        onCardLike={handleCardLike}
-                        onCardDelete={handleCardDelete}
-                    />
-                  </CardContext.Provider>
-              );
-            })}
-          </ul>
-        </section>
+      <section className="elements">
+        <ul className="elements__list">
+          {cards.map((card) =>
+              <CardContext.Provider value={card}>
+                <Card
+                  key={card._id}
+                  onCardClick={props.onCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                />
+              </CardContext.Provider>
+          )}
+        </ul>
+      </section>
     </main>
   );
 };

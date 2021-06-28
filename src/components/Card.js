@@ -1,37 +1,39 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { CardContext } from "../contexts/CardContext";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 const Card = (props) => {
+  const card = useContext(CardContext);
+  const currentUser = useContext(CurrentUserContext);
 
-    const card = useContext(CardContext);
-    const currentUser = useContext(CurrentUserContext);
-
-    const handleClick = () => {
+  const handleClick = () => {
     props.onCardClick(card);
   };
 
-    //добавляем видимость для лайка, если его установил пользователь и функционал по клику
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+  //добавляем видимость для лайка, если его установил пользователь и функционал по клику
+  const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
-    const cardLikeButtonClassName =(`element__like ${isLiked ? 'element__like_active' : ''}`)
+  const cardLikeButtonClassName = `element__like ${
+    isLiked ? "element__like_active" : ""
+  }`;
 
-    const handleLikeClick = () => {
-        props.onCardLike(card);
-    }
+  const handleLikeClick = () => {
+    props.onCardLike(card);
+  };
 
   //  добавляем видимость корзины удаления для карточки пользователя и функционал по клику
-    const isOwn = card.owner._id ===currentUser._id;
+  const isOwn = card.owner._id === currentUser._id;
 
-    const cardDeleteButtonClassName =(`button element__trash ${isOwn ? '' : 'element__trash_hidden'}`)
+  const cardDeleteButtonClassName = `button element__trash ${
+    isOwn ? "" : "element__trash_hidden"
+  }`;
 
-    const handleDeleteClickClick = () => {
-        props.onCardDelete(card);
-    }
-
+  const handleDeleteClickClick = () => {
+    props.onCardDelete(card);
+  };
 
   return (
-    <li key={card._id} className="element elements__list-item">
+    <li className="element elements__list-item">
       <img
         src={card.link}
         alt={card.name}
@@ -61,7 +63,6 @@ const Card = (props) => {
       />
     </li>
   );
-}
-
+};
 
 export default Card;

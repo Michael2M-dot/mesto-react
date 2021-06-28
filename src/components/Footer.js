@@ -1,12 +1,14 @@
 import React from "react";
-import cx from 'classnames';
+import cx from "classnames";
 
 const date = new Date();
 
-function Footer({mix}) {
+function Footer({ mix }) {
   return (
-    <footer className={cx(mix, 'footer')}>
-      <p className="footer__copyright">&copy; {date.getFullYear()} Mesto Russia</p>
+    <footer className={cx(mix, "footer")}>
+      <p className="footer__copyright">
+        &copy; {date.getFullYear()} Mesto Russia
+      </p>
     </footer>
   );
 }

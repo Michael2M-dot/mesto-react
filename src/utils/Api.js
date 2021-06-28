@@ -72,13 +72,12 @@ class Api {
     }).then((res) => this._checkStatus(res));
   }
 
-
   updateAvatar(data) {
     return fetch(`${this._serverUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: data.avatarLinkInput,
+        avatar: data.avatar,
       }),
     }).then((res) => this._checkStatus(res));
   }

@@ -1,34 +1,39 @@
 import React from "react";
 
-function PopupWithForm(props) {
+function PopupWithForm({name, title, isOpen, onClose, onSubmit, children, button}) {
+
+  // const handleOverlayClosePopup = (evt) => {
+  //   if(evt.target.classList.contains("page__window")){ return isOpen }
+  //   return onClose
+  // }
 
   return (
     <section
       className={`popup page__popup section ${
-        props.isOpen ? "page__popup_visible" : ""
+        isOpen ? "page__popup_visible" : ""
       }`}
-      id={`edit-${props.name}`}
-      onClick={props.onClose}
+      id={`edit-${name}`}
+      onClick={onClose}
     >
       <div className="popup__window popup__window_size_s">
-        <h2 className="popup__title">{props.title}</h2>
+        <h2 className="popup__title">{title}</h2>
         <button
-          arial-lable="Закрыть форму для изменения данных о пользователе"
+          arial-lable="Закрыть форму"
           tittle="Закрыть"
           type="button"
           className="button popup__button-close"
           id="close-userPopup"
-          onClick={props.onClose}
+          onClick={onClose}
         />
         <form
           className="form"
-          id={`${props.name}`}
+          id={`${name}`}
           name="userProfileForm"
           autoComplete="off"
           noValidate
-          onSubmit={props.onSubmit}
+          onSubmit={onSubmit}
         >
-          {props.children}
+          {children}
           <button
             arial-lable="Сохранить изменения данных о пользователе"
             type="submit"
@@ -36,7 +41,7 @@ function PopupWithForm(props) {
             id="user-submit"
           >
             <div className="button__wrapper">
-              <div className="button__text">{props.button}</div>
+              <div className="button__text">{button}</div>
               <div className="button__jumping-dots button__jumping-dots_visibility_hidden">
                 <span className="button__jumping-dots jump">.</span>
                 <span className="button__jumping-dots jump">.</span>
