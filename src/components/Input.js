@@ -1,7 +1,6 @@
 import React from "react";
 
 const Input = (props) => {
-
   return (
     <label className="form__fieldset" htmlFor={`${props.id}-input`}>
       <input

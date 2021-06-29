@@ -4,7 +4,7 @@ import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { CardContext } from "../contexts/CardContext";
 
-const Main = (props) => {
+const Main = ({ onAddPlace, onCardClick, onEditAvatar, onEditProfile }) => {
   const currentUser = useContext(CurrentUserContext);
 
   const [cards, setCards] = useState([]);
@@ -55,7 +55,6 @@ const Main = (props) => {
       });
   };
 
-
   return (
     <main className="content page__content section section_size_narrow">
       <section className="profile">
@@ -63,7 +62,7 @@ const Main = (props) => {
           <div
             className="profile__user-avatar"
             style={{ backgroundImage: `url(${currentUser.avatar})` }}
-            onClick={props.onEditAvatar}
+            onClick={onEditAvatar}
           />
           <div className="profile__user-info profile__user-info_margins_top-bottom profile__user-info_margins_left-right">
             <h1 className="profile__user-name">{currentUser.name}</h1>
@@ -75,7 +74,7 @@ const Main = (props) => {
             type="button"
             className="button profile__button-edit"
             id="profile-editBtn"
-            onClick={props.onEditProfile}
+            onClick={onEditProfile}
           />
         </div>
         <button
@@ -83,21 +82,21 @@ const Main = (props) => {
           tittle="Добавить"
           type="button"
           className="button profile__button-add"
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
         />
       </section>
       <section className="elements">
         <ul className="elements__list">
-          {cards.map((card) =>
-              <CardContext.Provider value={card}>
-                <Card
-                  key={card._id}
-                  onCardClick={props.onCardClick}
-                  onCardLike={handleCardLike}
-                  onCardDelete={handleCardDelete}
-                />
-              </CardContext.Provider>
-          )}
+          {cards.map((card) => (
+            <CardContext.Provider value={card}>
+              <Card
+                key={card._id}
+                onCardClick={onCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+              />
+            </CardContext.Provider>
+          ))}
         </ul>
       </section>
     </main>

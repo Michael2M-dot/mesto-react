@@ -32,8 +32,8 @@ class Api {
       body: JSON.stringify({
         name: data.name,
         about: data.about,
-        _id: data._id,
-        avatar: data.avatar,
+        // _id: data._id,
+        // avatar: data.avatar,
       }),
     }).then((res) => this._checkStatus(res));
   }

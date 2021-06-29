@@ -1,60 +1,55 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
+const EditAvatarPopup = ({
+  isOpen,
+  onClose,
+  onUpdateAvatar,
+  userAvatarRef,
+}) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-const EditAvatarPopup = (props) => {
+    onUpdateAvatar({
+      avatar: userAvatarRef.current.value,
+    });
 
-	// const [userAvatar, setUserAvatar] = useState('');
-	const userAvatarRef = useRef();
+    userAvatarRef.current.value = "";
+  };
 
-	console.log(userAvatarRef)
-	const handleAvatarChange = (e) => {
-		userAvatarRef.current(e.target.value)
-		console.log(userAvatarRef.current)
-	}
-
-	function handleSubmit(e) {
-		e.preventDefault();
-
-		props.onUpdateAvatar({
-			avatar: userAvatarRef
-		});
-	}
-
-	return(
-		<PopupWithForm
-			name={"user-avatar"}
-			title={"Обновить аватар"}
-			button={"Сохранить"}
-			isOpen={props.isOpen}
-			onClose={props.onClose}
-			onSubmit={handleSubmit}
-		>
-			<label className="form__fieldset" htmlFor="avatar-link-input">
-				<input
-					current={userAvatarRef}
-					type="url"
-					className="form__input"
-					id="avatar-link-input"
-					name="avatarLinkInput"
-					placeholder="Ссылка на изображение (обязательно)"
-					required
-					onChange={handleAvatarChange}
-				/>
-				<span className="form__input-error" id={`${props.id}-input-error`} />
-			</label>
-			{/*<Input*/}
-			{/*	current={userAvatar}*/}
-			{/*	type={"url"}*/}
-			{/*	id={"avatar-link"}*/}
-			{/*	placeholder={"Ссылка на изображение (обязательно)"}*/}
-			{/*	name={"avatarLinkInput"}*/}
-			{/*	required={true}*/}
-			{/*	maxLength={""}*/}
-			{/*	minLength={""}*/}
-			{/*/>*/}
-		</PopupWithForm>
-	)
+  return (
+    <PopupWithForm
+      name={"user-avatar"}
+      title={"Обновить аватар"}
+      button={"Сохранить"}
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={handleSubmit}
+    >
+      <label className="form__fieldset" htmlFor="avatar-link-input">
+        <input
+          ref={userAvatarRef}
+          type="url"
+          className="form__input"
+          id="avatar-link-input"
+          name="avatarLinkInput"
+          placeholder="Ссылка на изображение (обязательно)"
+          required
+        />
+        <span className="form__input-error" id="avatar-link-input-error" />
+      </label>
+      {/*<Input*/}
+      {/*	current={userAvatar}*/}
+      {/*	type={"url"}*/}
+      {/*	id={"avatar-link"}*/}
+      {/*	placeholder={"Ссылка на изображение (обязательно)"}*/}
+      {/*	name={"avatarLinkInput"}*/}
+      {/*	required={true}*/}
+      {/*	maxLength={""}*/}
+      {/*	minLength={""}*/}
+      {/*/>*/}
+    </PopupWithForm>
+  );
 };
 
 export default EditAvatarPopup;

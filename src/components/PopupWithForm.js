@@ -1,12 +1,14 @@
 import React from "react";
 
-function PopupWithForm({name, title, isOpen, onClose, onSubmit, children, button}) {
-
-  // const handleOverlayClosePopup = (evt) => {
-  //   if(evt.target.classList.contains("page__window")){ return isOpen }
-  //   return onClose
-  // }
-
+function PopupWithForm({
+  name,
+  title,
+  isOpen,
+  onClose,
+  onSubmit,
+  children,
+  button,
+}) {
   return (
     <section
       className={`popup page__popup section ${

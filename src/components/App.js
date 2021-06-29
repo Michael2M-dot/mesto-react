@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "./Header.js";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -17,6 +17,7 @@ const App = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [selectedCardData, setSelectedCardData] = useState({}); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
   const [currentUser, setCurrentUser] = useState({});
+  const userAvatarRef = useRef(); //отработка работы с ref в React
 
   //    получаем данные о пользователе и записываем в стэйт переменную
   useEffect(() => {
@@ -51,7 +52,8 @@ const App = () => {
 
   const closeAllPopups = (evt) => {
     if (
-      !evt.target.classList.contains("page__window")
+      evt.target.classList.contains("page__popup") ||
+      evt.target.classList.contains("popup__button-close")
     ) {
       setIsEditProfilePopupOpen(false);
       setIsEditAvatarPopupOpen(false);
@@ -63,7 +65,10 @@ const App = () => {
   //закрытие попапов по нажатию ESC
   const handleEscClose = (evt) => {
     if (evt.key === "Escape") {
-      closeAllPopups();
+      setIsEditProfilePopupOpen(false);
+      setIsEditAvatarPopupOpen(false);
+      setIsAddPlacePopupOpen(false);
+      setSelectedCard(false);
     }
   };
 
@@ -88,7 +93,6 @@ const App = () => {
     selectedCard,
   ]);
 
-
   //функция обновления информации о пользователе
   const handleUserUpdate = (data) => {
     api
@@ -109,20 +113,19 @@ const App = () => {
   //функционал обновления аватара пользователя
   const handleAvatarUpdate = (data) => {
     api
-        .updateAvatar()
-        .then (() => {
-          setCurrentUser(...currentUser, data.avatar)
-        })
-        .catch((err) => {
-          console.log(
-              `Непредвиденная ошибка при загрузки изображения аватара: ${err.status} ${err.statusText}`
-          );
-        })
-        .finally(() => {
-          setIsEditProfilePopupOpen(false);
-        });
-  }
-
+      .updateAvatar(data)
+      .then(() => {
+        setCurrentUser(Object.assign(currentUser, { avatar: data.avatar }));
+      })
+      .catch((err) => {
+        console.log(
+          `Непредвиденная ошибка при загрузки изображения аватара: ${err.status} ${err.statusText}`
+        );
+      })
+      .finally(() => {
+        setIsEditAvatarPopupOpen(false);
+      });
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -145,9 +148,10 @@ const App = () => {
         />
 
         <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUserUpdate}
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleAvatarUpdate}
+          userAvatarRef={userAvatarRef}
         />
 
         {/*<PopupWithForm*/}

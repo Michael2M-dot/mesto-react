@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import { CardContext } from "../contexts/CardContext";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-const Card = (props) => {
+const Card = ({ onCardClick, onCardLike, onCardDelete }) => {
   const card = useContext(CardContext);
   const currentUser = useContext(CurrentUserContext);
 
   const handleClick = () => {
-    props.onCardClick(card);
+    onCardClick(card);
   };
 
   //добавляем видимость для лайка, если его установил пользователь и функционал по клику
@@ -18,7 +18,7 @@ const Card = (props) => {
   }`;
 
   const handleLikeClick = () => {
-    props.onCardLike(card);
+    onCardLike(card);
   };
 
   //  добавляем видимость корзины удаления для карточки пользователя и функционал по клику
@@ -29,7 +29,7 @@ const Card = (props) => {
   }`;
 
   const handleDeleteClickClick = () => {
-    props.onCardDelete(card);
+    onCardDelete(card);
   };
 
   return (

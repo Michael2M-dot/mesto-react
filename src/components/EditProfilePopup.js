@@ -3,9 +3,7 @@ import PopupWithForm from "./PopupWithForm";
 // import Input from "./Input";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-
-const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
-
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
   const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -43,22 +41,22 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
     >
       <label className="form__fieldset" htmlFor="user-name-input">
         <input
-            type="text"
-            value={name}
-            className="form__input"
-            id="user-name-input"
-            name="userNameInput"
-            placeholder="Имя"
-            required
-            maxLength="40"
-            minLength="2"
-            onChange={handleChangeName}
+          type="text"
+          value={name}
+          className="form__input"
+          id="user-name-input"
+          name="userNameInput"
+          placeholder="Имя"
+          required
+          maxLength="40"
+          minLength="2"
+          onChange={handleChangeName}
         />
         <span className="form__input-error" id="user-name-input-error" />
       </label>
 
       <label className="form__fieldset" htmlFor="user-job-input">
-      <input
+        <input
           type="text"
           value={description}
           className="form__input"
@@ -69,10 +67,32 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
           maxLength="200"
           minLength="2"
           onChange={handleChangeDescription}
-      />
-      <span className="form__input-error" id="user-job-input-error" />
-    </label>
+        />
+        <span className="form__input-error" id="user-job-input-error" />
+      </label>
 
+      {/*<Input*/}
+      {/*  type={"text"}*/}
+      {/*  value={name}*/}
+      {/*  id={"user-name"}*/}
+      {/*  placeholder={"Имя"}*/}
+      {/*  name={"userNameInput"}*/}
+      {/*  required={true}*/}
+      {/*  maxLength={"40"}*/}
+      {/*  minLength={"2"}*/}
+      {/*  onChange={handleChangeName}*/}
+      {/*/>*/}
+      {/*<Input*/}
+      {/*  type={"text"}*/}
+      {/*  value={description}*/}
+      {/*  id={"user-job"}*/}
+      {/*  placeholder={"О себе"}*/}
+      {/*  name={"userJobInput"}*/}
+      {/*  required={true}*/}
+      {/*  maxLength={"200"}*/}
+      {/*  minLength={"2"}*/}
+      {/*  onChange={handleChangeDescription}*/}
+      {/*/>*/}
     </PopupWithForm>
   );
 };
