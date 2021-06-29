@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 const ImagePopup = ({ isOpen, onClose, data }) => {
-  const {name, link} = data;
-
   return (
     <section
       className={`popup page__popup section ${
@@ -23,10 +21,10 @@ const ImagePopup = ({ isOpen, onClose, data }) => {
         <figure className="popup__figure">
           <img
             className="popup__image"
-            src={link}
-            alt={`Нам очень жаль что вы не можете увидеть изображение этого красивого места ${name}`}
+            src={data?.link}
+            alt={`Нам очень жаль что вы не можете увидеть изображение этого красивого места ${data?.name}`}
           />
-          <figcaption className="popup__caption">{name}</figcaption>
+          <figcaption className="popup__caption">{data?.name}</figcaption>
         </figure>
       </div>
     </section>
@@ -34,3 +32,5 @@ const ImagePopup = ({ isOpen, onClose, data }) => {
 };
 
 export default ImagePopup;
+
+// `${!onClose ? setTimeout((()=> ''), 2000) : link}`

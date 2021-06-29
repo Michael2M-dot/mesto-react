@@ -32,8 +32,6 @@ class Api {
       body: JSON.stringify({
         name: data.name,
         about: data.about,
-        // _id: data._id,
-        // avatar: data.avatar,
       }),
     }).then((res) => this._checkStatus(res));
   }
@@ -45,8 +43,8 @@ class Api {
       body: JSON.stringify({
         name: data.name,
         link: data.link,
-        // _id: data._id,
-        owner: data.owner._id
+        _id: data._id,
+        owner: data.owner._id,
       }),
     }).then((res) => this._checkStatus(res));
   }
