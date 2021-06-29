@@ -5,8 +5,9 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
   const currentUser = useContext(CurrentUserContext);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
     setName(currentUser.name);
@@ -42,7 +43,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
       <label className="form__fieldset" htmlFor="user-name-input">
         <input
           type="text"
-          value={name}
+          value={name||''}
           className="form__input"
           id="user-name-input"
           name="userNameInput"
@@ -58,7 +59,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
       <label className="form__fieldset" htmlFor="user-job-input">
         <input
           type="text"
-          value={description}
+          value={description||''}
           className="form__input"
           id="user-job-input"
           name="userJobInput"

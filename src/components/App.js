@@ -1,25 +1,72 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import Header from "./Header.js";
 import Main from "./Main";
 import Footer from "./Footer";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
-import PopupWithForm from "./PopupWithForm";
-import Input from "./Input";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-const App = () => {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [selectedCardData, setSelectedCardData] = useState({}); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
-  const [currentUser, setCurrentUser] = useState({});
-  const userAvatarRef = useRef(); //отработка работы с ref в React
 
-  //    получаем данные о пользователе и записываем в стэйт переменную
+const App = () => {
+  const [ isEditProfilePopupOpen, setIsEditProfilePopupOpen ] = useState(false);
+  const [ isAddPlacePopupOpen, setIsAddPlacePopupOpen ] = useState(false);
+  const [ isEditAvatarPopupOpen, setIsEditAvatarPopupOpen ] = useState(false);
+  const [ selectedCard, setSelectedCard ] = useState(false);
+  const [ selectedCardData, setSelectedCardData ] = useState({}); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
+  const [ currentUser, setCurrentUser ] = useState({});
+  const userAvatarRef = useRef(); //отработка работы с ref в React
+  const [ cards, setCards ] = useState([]);
+
+  //получаем массив исходных карточек
+  useEffect(() => {
+    api
+        .getInitialCards()
+        .then((cards) => {
+          setCards(cards);
+        })
+        .catch((err) => {
+          console.log(
+              `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
+          );
+        });
+  }, [ setCards ]);
+
+  //функция управления лайками на карточке
+  const handleCardLike = (card) => {
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+
+    api
+        .changeLikeCardStatus(card._id, !isLiked)
+        .then((newCard) => {
+          setCards((items) =>
+              items.map((item) => (item._id === card._id ? newCard : item))
+          );
+        })
+        .catch((err) => {
+          console.log(
+              `Ошибка при установке лайка: ${err.status} ${err.statusText}`
+          );
+        });
+  };
+
+  //функция удаления карточки пользователя
+  const handleCardDelete = (card) => {
+    api
+        .deleteCard(card._id)
+        .then(() => {
+          setCards(cards.filter((item) => item._id !== card._id));
+        })
+        .catch((err) => {
+          console.log(
+              `Ошибка при удалении карточки: ${err.status} ${err.statusText}`
+          );
+        });
+  };
+
+  // функционал обновления данных о пользователе
   useEffect(() => {
     api
       .getUserData()
@@ -32,6 +79,42 @@ const App = () => {
         );
       });
   }, [setCurrentUser]);
+
+
+  //функционал обновления аватара пользователя
+  const handleAvatarUpdate = (data) => {
+    api
+        .updateAvatar(data)
+        .then(() => {
+          setCurrentUser(Object.assign(currentUser, { avatar: data.avatar }));
+        })
+        .catch((err) => {
+          console.log(
+              `Непредвиденная ошибка при загрузки изображения аватара: ${err.status} ${err.statusText}`
+          );
+        })
+        .finally(() => {
+          setIsEditAvatarPopupOpen(false);
+        });
+  };
+
+  //функционал добавления новой карточки пользователя
+  const handleAddCardSubmit= (newCard) => {
+    api
+        .addCard(newCard)
+        .then(()=>{
+          setCards([newCard, ...cards])
+        })
+        .catch((err) => {
+          console.log(
+              `Непредвиденная ошибка при загрузки карточки пользователя: ${err.status} ${err.statusText}`
+          );
+        })
+        .finally(() => {
+          setIsAddPlacePopupOpen(false);
+        });
+  }
+
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -59,6 +142,7 @@ const App = () => {
       setIsEditAvatarPopupOpen(false);
       setIsAddPlacePopupOpen(false);
       setSelectedCard(false);
+      // !selectedCard ? setTimeout(()=> setSelectedCardData({}), 2000) : '' исправить баг при открытии пустой картинки выходит прошлое изображение
     }
   };
 
@@ -110,22 +194,7 @@ const App = () => {
       });
   };
 
-  //функционал обновления аватара пользователя
-  const handleAvatarUpdate = (data) => {
-    api
-      .updateAvatar(data)
-      .then(() => {
-        setCurrentUser(Object.assign(currentUser, { avatar: data.avatar }));
-      })
-      .catch((err) => {
-        console.log(
-          `Непредвиденная ошибка при загрузки изображения аватара: ${err.status} ${err.statusText}`
-        );
-      })
-      .finally(() => {
-        setIsEditAvatarPopupOpen(false);
-      });
-  };
+
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -137,6 +206,9 @@ const App = () => {
             onEditAvatar={handleEditAvatarClick}
             onAddPlace={handleAddPlaceClick}
             onCardClick={handleCardClick}
+            cards={cards}
+            onLikeClick={handleCardLike}
+            onDeleteClick={handleCardDelete}
           />
           <Footer mix={"page__footer"} />
         </div>
@@ -152,6 +224,13 @@ const App = () => {
           onClose={closeAllPopups}
           onUpdateAvatar={handleAvatarUpdate}
           userAvatarRef={userAvatarRef}
+        />
+
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddCardSubmit}
+          currentUser={currentUser}
         />
 
         {/*<PopupWithForm*/}
@@ -172,32 +251,32 @@ const App = () => {
         {/*  />*/}
         {/*</PopupWithForm>*/}
 
-        <PopupWithForm
-          name={"user-card"}
-          title={"Новое место"}
-          button={"Создать"}
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-        >
-          <Input
-            type={"text"}
-            id={"place-name"}
-            placeholder={"Название (обязательно)"}
-            name={"placeNameInput"}
-            required={true}
-            maxLength={"30"}
-            minLength={"2"}
-          />
-          <Input
-            type={"url"}
-            id={"place-link"}
-            placeholder={"Ссылка на картинку (обязательно)"}
-            name={"placeLinkInput"}
-            required={true}
-            maxLength={""}
-            minLength={""}
-          />
-        </PopupWithForm>
+        {/*<PopupWithForm*/}
+        {/*  name={"user-card"}*/}
+        {/*  title={"Новое место"}*/}
+        {/*  button={"Создать"}*/}
+        {/*  isOpen={isAddPlacePopupOpen}*/}
+        {/*  onClose={closeAllPopups}*/}
+        {/*>*/}
+        {/*  <Input*/}
+        {/*    type={"text"}*/}
+        {/*    id={"place-name"}*/}
+        {/*    placeholder={"Название (обязательно)"}*/}
+        {/*    name={"placeNameInput"}*/}
+        {/*    required={true}*/}
+        {/*    maxLength={"30"}*/}
+        {/*    minLength={"2"}*/}
+        {/*  />*/}
+        {/*  <Input*/}
+        {/*    type={"url"}*/}
+        {/*    id={"place-link"}*/}
+        {/*    placeholder={"Ссылка на картинку (обязательно)"}*/}
+        {/*    name={"placeLinkInput"}*/}
+        {/*    required={true}*/}
+        {/*    maxLength={""}*/}
+        {/*    minLength={""}*/}
+        {/*  />*/}
+        {/*</PopupWithForm>*/}
 
         <ImagePopup
           isOpen={selectedCard}

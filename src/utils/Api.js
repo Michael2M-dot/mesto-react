@@ -43,10 +43,10 @@ class Api {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.placeNameInput,
-        link: data.placeLinkInput,
-        // owner: data.owner,
-        // user: data.user
+        name: data.name,
+        link: data.link,
+        // _id: data._id,
+        owner: data.owner._id
       }),
     }).then((res) => this._checkStatus(res));
   }
