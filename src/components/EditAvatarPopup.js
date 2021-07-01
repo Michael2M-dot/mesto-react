@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
 const EditAvatarPopup = ({
@@ -38,16 +38,6 @@ const EditAvatarPopup = ({
         />
         <span className="form__input-error" id="avatar-link-input-error" />
       </label>
-      {/*<Input*/}
-      {/*	current={userAvatar}*/}
-      {/*	type={"url"}*/}
-      {/*	id={"avatar-link"}*/}
-      {/*	placeholder={"Ссылка на изображение (обязательно)"}*/}
-      {/*	name={"avatarLinkInput"}*/}
-      {/*	required={true}*/}
-      {/*	maxLength={""}*/}
-      {/*	minLength={""}*/}
-      {/*/>*/}
     </PopupWithForm>
   );
 };

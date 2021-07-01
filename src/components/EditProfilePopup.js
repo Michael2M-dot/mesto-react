@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
-// import Input from "./Input";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
@@ -12,7 +11,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [onUpdateUser]);
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -71,29 +70,6 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
         />
         <span className="form__input-error" id="user-job-input-error" />
       </label>
-
-      {/*<Input*/}
-      {/*  type={"text"}*/}
-      {/*  value={name}*/}
-      {/*  id={"user-name"}*/}
-      {/*  placeholder={"Имя"}*/}
-      {/*  name={"userNameInput"}*/}
-      {/*  required={true}*/}
-      {/*  maxLength={"40"}*/}
-      {/*  minLength={"2"}*/}
-      {/*  onChange={handleChangeName}*/}
-      {/*/>*/}
-      {/*<Input*/}
-      {/*  type={"text"}*/}
-      {/*  value={description}*/}
-      {/*  id={"user-job"}*/}
-      {/*  placeholder={"О себе"}*/}
-      {/*  name={"userJobInput"}*/}
-      {/*  required={true}*/}
-      {/*  maxLength={"200"}*/}
-      {/*  minLength={"2"}*/}
-      {/*  onChange={handleChangeDescription}*/}
-      {/*/>*/}
     </PopupWithForm>
   );
 };

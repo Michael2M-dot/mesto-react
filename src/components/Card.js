@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-// import { CardContext } from "../contexts/CardContext";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 const Card = ({ onCardClick, onCardLike, onCardDelete, card }) => {

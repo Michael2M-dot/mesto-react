@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "./Header.js";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -8,14 +8,13 @@ import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { CardContext } from "../contexts/CardContext";
 
 const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(false);
-  const [selectedCardData, setSelectedCardData] = useState(null); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
+  const [selectedCardData, setSelectedCardData] = useState(""); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
   const [currentUser, setCurrentUser] = useState({});
   const userAvatarRef = useRef(""); //отработка работы с ref в React
   const [cards, setCards] = useState([]);
@@ -39,9 +38,7 @@ const App = () => {
     api
       .addCard(newCard)
       .then((newCard) => {
-        console.log(newCard);
         setCards([newCard, ...cards]);
-        console.log(cards);
       })
       .catch((err) => {
         console.log(
@@ -103,7 +100,7 @@ const App = () => {
   const handleAvatarUpdate = (data) => {
     api
       .updateAvatar(data)
-      .then(() => {
+      .then((data) => {
         setCurrentUser(Object.assign(currentUser, { avatar: data.avatar }));
       })
       .catch((err) => {
@@ -120,7 +117,7 @@ const App = () => {
   const handleUserUpdate = (data) => {
     api
       .updateUserData(data)
-      .then(() => {
+      .then((data) => {
         setCurrentUser(data);
       })
       .catch((err) => {
@@ -160,8 +157,6 @@ const App = () => {
       setIsAddPlacePopupOpen(false);
       setSelectedCard(false);
       userAvatarRef.current.value = "";
-
-      // !selectedCard ? setTimeout(()=> setSelectedCardData({}), 2000) : '' исправить баг при открытии пустой картинки выходит прошлое изображение
     }
   };
 
@@ -196,8 +191,6 @@ const App = () => {
     isEditAvatarPopupOpen,
     selectedCard,
   ]);
-
-  console.log(cards);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

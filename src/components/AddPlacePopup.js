@@ -50,7 +50,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
         id={"place-name"}
         placeholder={"Название (обязательно)"}
         name={"placeNameInput"}
-        required={true}
+        required
         maxLength={"30"}
         minLength={"2"}
         onChange={handlePlaceNameChange}
