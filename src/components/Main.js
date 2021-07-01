@@ -51,6 +51,7 @@ const Main = ({
             <CardContext.Provider value={card}>
               <Card
                 key={card._id}
+
                 onCardClick={onCardClick}
                 onCardLike={onLikeClick}
                 onCardDelete={onDeleteClick}

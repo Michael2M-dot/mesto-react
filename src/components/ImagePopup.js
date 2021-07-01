@@ -21,10 +21,10 @@ const ImagePopup = ({ isOpen, onClose, data }) => {
         <figure className="popup__figure">
           <img
             className="popup__image"
-            src={data?.link}
-            alt={`Нам очень жаль что вы не можете увидеть изображение этого красивого места ${data?.name}`}
+            src={data && data?.link}
+            alt={`Нам очень жаль что вы не можете увидеть изображение этого красивого места ${data && data?.name}`}
           />
-          <figcaption className="popup__caption">{data?.name}</figcaption>
+          <figcaption className="popup__caption">{data && data?.name}</figcaption>
         </figure>
       </div>
     </section>

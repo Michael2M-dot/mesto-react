@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useState, useEffect, useRef, useContext} from "react";
 import Header from "./Header.js";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -8,6 +8,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CardContext } from "../contexts/CardContext";
 
 const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -16,7 +17,7 @@ const App = () => {
   const [selectedCard, setSelectedCard] = useState(false);
   const [selectedCardData, setSelectedCardData] = useState(null); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
   const [currentUser, setCurrentUser] = useState({});
-  const userAvatarRef = useRef(); //отработка работы с ref в React
+  const userAvatarRef = useRef(''); //отработка работы с ref в React
   const [cards, setCards] = useState([]);
 
   //получаем массив исходных карточек
@@ -32,6 +33,25 @@ const App = () => {
         );
       });
   }, [setCards]);
+
+  //функционал добавления новой карточки пользователя
+  const handleAddCardSubmit = (newCard) => {
+    api
+        .addCard(newCard)
+        .then(() => {
+          console.log(newCard)
+          setCards(cards);
+          console.log(cards)
+        })
+        .catch((err) => {
+          console.log(
+              `Непредвиденная ошибка при загрузки карточки пользователя: ${err.status} ${err.statusText}`
+          );
+        })
+        .finally(() => {
+          setIsAddPlacePopupOpen(false);
+        });
+  };
 
   //функция управления лайками на карточке
   const handleCardLike = (card) => {
@@ -96,22 +116,7 @@ const App = () => {
       });
   };
 
-  //функционал добавления новой карточки пользователя
-  const handleAddCardSubmit = (newCard) => {
-    api
-      .addCard(newCard)
-      .then(() => {
-        setCards([newCard, ...cards]);
-      })
-      .catch((err) => {
-        console.log(
-          `Непредвиденная ошибка при загрузки карточки пользователя: ${err.status} ${err.statusText}`
-        );
-      })
-      .finally(() => {
-        setIsAddPlacePopupOpen(false);
-      });
-  };
+
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -139,17 +144,20 @@ const App = () => {
       setIsEditAvatarPopupOpen(false);
       setIsAddPlacePopupOpen(false);
       setSelectedCard(false);
+      userAvatarRef.current.value = ''
+
       // !selectedCard ? setTimeout(()=> setSelectedCardData({}), 2000) : '' исправить баг при открытии пустой картинки выходит прошлое изображение
     }
   };
 
   //закрытие попапов по нажатию ESC
   const handleEscClose = (evt) => {
-    if (evt.key === "Escape") {
+    if (evt.keyCode === 27) {
       setIsEditProfilePopupOpen(false);
       setIsEditAvatarPopupOpen(false);
       setIsAddPlacePopupOpen(false);
       setSelectedCard(false);
+      userAvatarRef.current.value = ''
     }
   };
 
@@ -161,7 +169,7 @@ const App = () => {
       isEditAvatarPopupOpen ||
       selectedCard
     ) {
-      document.addEventListener("keydown", handleEscClose, { once: true });
+      document.addEventListener("keydown", handleEscClose);
     }
 
     return () => {
@@ -196,15 +204,17 @@ const App = () => {
       <div className="page">
         <div className="page__container">
           <Header mix={"page__header section"} />
-          <Main
-            onEditProfile={handleEditProfileClick}
-            onEditAvatar={handleEditAvatarClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            cards={cards}
-            onLikeClick={handleCardLike}
-            onDeleteClick={handleCardDelete}
-          />
+
+            <Main
+                onEditProfile={handleEditProfileClick}
+                onEditAvatar={handleEditAvatarClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+                cards={cards}
+                onLikeClick={handleCardLike}
+                onDeleteClick={handleCardDelete}
+            />
+
           <Footer mix={"page__footer"} />
         </div>
 
@@ -225,7 +235,6 @@ const App = () => {
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddCardSubmit}
-          currentUser={currentUser}
         />
 
         {/*<PopupWithForm*/}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 const EditAvatarPopup = ({
@@ -7,6 +7,7 @@ const EditAvatarPopup = ({
   onUpdateAvatar,
   userAvatarRef,
 }) => {
+
   const handleSubmit = (e) => {
     e.preventDefault();
 

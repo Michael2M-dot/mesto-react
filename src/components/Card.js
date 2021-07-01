@@ -11,7 +11,8 @@ const Card = ({ onCardClick, onCardLike, onCardDelete }) => {
   };
 
   //добавляем видимость для лайка, если его установил пользователь и функционал по клику
-  const isLiked = card.likes.some((i) => i._id === currentUser._id);
+  console.log (card)
+  const isLiked = card.likes && card.likes.some((i) => i && i._id === currentUser._id);
 
   const cardLikeButtonClassName = `element__like ${
     isLiked ? "element__like_active" : ""
@@ -36,13 +37,13 @@ const Card = ({ onCardClick, onCardLike, onCardDelete }) => {
     <CardContext.Provider value={card}>
       <li className="element elements__list-item">
         <img
-          src={card.link}
-          alt={card.name}
+          src={card && card.link}
+          alt={card && card.name}
           className="element__image"
           onClick={handleClick}
         />
         <div className="element__heading">
-          <h2 className="element__title">{card.name}</h2>
+          <h2 className="element__title">{card && card.name}</h2>
           <div className="element__like-and-count">
             <button
               arial-lable="Поставить/снять лайк на карточке"
@@ -51,7 +52,7 @@ const Card = ({ onCardClick, onCardLike, onCardDelete }) => {
               className={cardLikeButtonClassName}
               onClick={handleLikeClick}
             />
-            <p className="element__count">{card.likes.length}</p>
+            <p className="element__count">{card.likes ? card.likes.length : '0'}</p>
           </div>
         </div>
         <button

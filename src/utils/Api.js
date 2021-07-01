@@ -43,8 +43,8 @@ class Api {
       body: JSON.stringify({
         name: data.name,
         link: data.link,
-        _id: data._id,
-        owner: data.owner._id,
+        // _id: data._id,
+        // owner: data.owner._id,
       }),
     }).then((res) => this._checkStatus(res));
   }
@@ -56,12 +56,12 @@ class Api {
     }).then((res) => this._checkStatus(res));
   }
 
-  likeCard(method, id) {
-    return fetch(`${this._serverUrl}/cards/likes/${id}`, {
-      method: method,
-      headers: this._headers,
-    }).then((res) => this._checkStatus(res));
-  }
+  // likeCard(method, id) {
+  //   return fetch(`${this._serverUrl}/cards/likes/${id}`, {
+  //     method: method,
+  //     headers: this._headers,
+  //   }).then((res) => this._checkStatus(res));
+  // }
 
   changeLikeCardStatus(id, cardIsLiked) {
     return fetch(`${this._serverUrl}/cards/likes/${id}`, {
