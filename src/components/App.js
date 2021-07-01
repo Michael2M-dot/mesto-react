@@ -20,8 +20,8 @@ const App = () => {
   const userAvatarRef = useRef(""); //отработка работы с ref в React
   const [cards, setCards] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isPopupWithSubmitOpen, setIsPopupWithSubmitOpen] =useState(false)
-  const [deletedCardData, setDeletedCardData] = useState("")
+  const [isPopupWithSubmitOpen, setIsPopupWithSubmitOpen] = useState(false);
+  const [deletedCardData, setDeletedCardData] = useState("");
 
   //получаем массив исходных карточек
   useEffect(() => {
@@ -33,6 +33,20 @@ const App = () => {
       .catch((err) => {
         console.log(
           `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
+        );
+      });
+  }, []);
+
+  // функционал загрузки данных о пользователе с сервера
+  useEffect(() => {
+    api
+      .getUserData()
+      .then((userData) => {
+        setCurrentUser(userData);
+      })
+      .catch((err) => {
+        console.log(
+          `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
         );
       });
   }, []);
@@ -89,25 +103,11 @@ const App = () => {
           `Ошибка при удалении карточки: ${err.status} ${err.statusText}`
         );
       })
-        .finally(() => {
+      .finally(() => {
         setIsPopupWithSubmitOpen(false);
         setIsSubmitted(false);
       });
   };
-
-  // функционал загрузки данных о пользователе с сервера
-  useEffect(() => {
-    api
-      .getUserData()
-      .then((userData) => {
-        setCurrentUser(userData);
-      })
-      .catch((err) => {
-        console.log(
-          `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
-        );
-      });
-  }, []);
 
   //функционал обновления аватара пользователя
   const handleAvatarUpdate = (data) => {
@@ -149,45 +149,40 @@ const App = () => {
       });
   };
 
-  const handleEditProfileClick = () => {
-    setIsEditProfilePopupOpen(true);
-  };
-
+  //функция управления открытием и закрытием попапов
+  //открываем попап для добавления карточки пользователя
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
   };
 
+  //открываем попап редактирования данных о пользователе
+  const handleEditProfileClick = () => {
+    setIsEditProfilePopupOpen(true);
+  };
+
+  //открываем попапа редактирования аватара пользователя
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
   };
 
+  //открываем попап подтверждения действия пользователя
+  const handlePopupWithForm = (data) => {
+    setIsPopupWithSubmitOpen(true);
+    setDeletedCardData(data);
+  };
+
+  //открываем попап полноразмерного изображения карточки
   const handleCardClick = (value) => {
     setSelectedCard(true);
     setSelectedCardData(value);
   };
 
-  const handlePopupWithForm =(data)=>{
-    setIsPopupWithSubmitOpen(true)
-    setDeletedCardData(data)
-  }
-
+  //функция закрытия всех попапов по нажатию на крестик или клику на оверлей
   const closeAllPopups = (evt) => {
     if (
       evt.target.classList.contains("page__popup") ||
       evt.target.classList.contains("popup__button-close")
     ) {
-      setIsEditProfilePopupOpen(false);
-      setIsEditAvatarPopupOpen(false);
-      setIsAddPlacePopupOpen(false);
-      setSelectedCard(false);
-      setIsPopupWithSubmitOpen(false);
-      userAvatarRef.current.value = "";
-    }
-  };
-
-  //закрытие попапов по нажатию ESC
-  const handleEscClose = (evt) => {
-    if (evt.keyCode === 27) {
       setIsEditProfilePopupOpen(false);
       setIsEditAvatarPopupOpen(false);
       setIsAddPlacePopupOpen(false);
@@ -217,6 +212,18 @@ const App = () => {
     isEditAvatarPopupOpen,
     selectedCard,
   ]);
+
+  //закрытие попапов по нажатию ESC
+  const handleEscClose = (evt) => {
+    if (evt.keyCode === 27) {
+      setIsEditProfilePopupOpen(false);
+      setIsEditAvatarPopupOpen(false);
+      setIsAddPlacePopupOpen(false);
+      setSelectedCard(false);
+      setIsPopupWithSubmitOpen(false);
+      userAvatarRef.current.value = "";
+    }
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -272,8 +279,7 @@ const App = () => {
           isSubmitted={isSubmitted}
           deleteCard={handleCardDelete}
           data={deletedCardData}
-          />
-
+        />
       </div>
     </CurrentUserContext.Provider>
   );
