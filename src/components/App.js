@@ -238,7 +238,6 @@ const App = () => {
             onCardClick={handleCardClick}
             cards={cards}
             onLikeClick={handleCardLike}
-            // onDeleteClick={handleCardDelete}
             onDeleteClick={handlePopupWithForm}
           />
 
