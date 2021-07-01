@@ -36,15 +36,15 @@ class Api {
     }).then((res) => this._checkStatus(res));
   }
 
-  addCard(data) {
+  addCard(card) {
     return fetch(`${this._serverUrl}/cards`, {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name,
-        link: data.link,
+        name: card.name,
+        link: card.link,
         // _id: data._id,
-        // owner: data.owner._id,
+        owner: card.owner._id,
       }),
     }).then((res) => this._checkStatus(res));
   }

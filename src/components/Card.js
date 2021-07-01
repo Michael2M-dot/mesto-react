@@ -1,23 +1,23 @@
 import React, { useContext } from "react";
-import { CardContext } from "../contexts/CardContext";
+// import { CardContext } from "../contexts/CardContext";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-const Card = ({ onCardClick, onCardLike, onCardDelete }) => {
-  const card = useContext(CardContext);
+const Card = ({ onCardClick, onCardLike, onCardDelete, card }) => {
   const currentUser = useContext(CurrentUserContext);
 
+  //обработчик слушателя клика полноэкранного просмотра изображения карточки
   const handleClick = () => {
     onCardClick(card);
   };
 
   //добавляем видимость для лайка, если его установил пользователь и функционал по клику
-  console.log (card)
-  const isLiked = card.likes && card.likes.some((i) => i && i._id === currentUser._id);
+  const isLiked = card.likes.some((user) => user._id === currentUser._id);
 
   const cardLikeButtonClassName = `element__like ${
     isLiked ? "element__like_active" : ""
   }`;
 
+  //обработчик слушателя для лайка карточки
   const handleLikeClick = () => {
     onCardLike(card);
   };
@@ -29,12 +29,13 @@ const Card = ({ onCardClick, onCardLike, onCardDelete }) => {
     isOwn ? "" : "element__trash_hidden"
   }`;
 
+  //обработчик клика удаления карточки пользователя
   const handleDeleteClickClick = () => {
     onCardDelete(card);
   };
 
   return (
-    <CardContext.Provider value={card}>
+
       <li className="element elements__list-item">
         <img
           src={card && card.link}
@@ -64,7 +65,7 @@ const Card = ({ onCardClick, onCardLike, onCardDelete }) => {
           onClick={handleDeleteClickClick}
         />
       </li>
-    </CardContext.Provider>
+
   );
 };
 

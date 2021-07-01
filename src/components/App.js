@@ -20,27 +20,30 @@ const App = () => {
   const userAvatarRef = useRef(''); //отработка работы с ref в React
   const [cards, setCards] = useState([]);
 
+
   //получаем массив исходных карточек
   useEffect(() => {
     api
       .getInitialCards()
-      .then((cards) => {
-        setCards(cards);
+      .then((res) => {
+        setCards(res);
       })
       .catch((err) => {
         console.log(
           `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
         );
       });
-  }, [setCards]);
+  },[]);
+
+
 
   //функционал добавления новой карточки пользователя
   const handleAddCardSubmit = (newCard) => {
     api
         .addCard(newCard)
-        .then(() => {
+        .then((newCard) => {
           console.log(newCard)
-          setCards(cards);
+          setCards( [newCard, ...cards]);
           console.log(cards)
         })
         .catch((err) => {
@@ -85,19 +88,19 @@ const App = () => {
       });
   };
 
-  // функционал обновления данных о пользователе
+  // функционал загрузки данных о пользователе с сервера
   useEffect(() => {
     api
-      .getUserData()
-      .then((userData) => {
-        setCurrentUser(userData);
-      })
-      .catch((err) => {
-        console.log(
-          `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
-        );
-      });
-  }, [setCurrentUser]);
+        .getUserData()
+        .then((userData) => {
+          setCurrentUser(userData);
+        })
+        .catch((err) => {
+          console.log(
+              `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
+          );
+        });
+  }, []);
 
   //функционал обновления аватара пользователя
   const handleAvatarUpdate = (data) => {
@@ -116,7 +119,22 @@ const App = () => {
       });
   };
 
-
+  //функция обновления информации о пользователе
+    const handleUserUpdate = (data) => {
+      api
+          .updateUserData(data)
+          .then(() => {
+            setCurrentUser(data);
+          })
+          .catch((err) => {
+            console.log(
+                `Непредвиденная ошибка при передаче на сервер данных пользователя: ${err.status} ${err.statusText}`
+            );
+          })
+          .finally(() => {
+            setIsEditProfilePopupOpen(false);
+          });
+    };
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -182,22 +200,7 @@ const App = () => {
     selectedCard,
   ]);
 
-  //функция обновления информации о пользователе
-  const handleUserUpdate = (data) => {
-    api
-      .updateUserData(data)
-      .then(() => {
-        setCurrentUser(data);
-      })
-      .catch((err) => {
-        console.log(
-          `Непредвиденная ошибка при передаче на сервер данных пользователя: ${err.status} ${err.statusText}`
-        );
-      })
-      .finally(() => {
-        setIsEditProfilePopupOpen(false);
-      });
-  };
+  console.log(cards)
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -236,51 +239,6 @@ const App = () => {
           onClose={closeAllPopups}
           onAddPlace={handleAddCardSubmit}
         />
-
-        {/*<PopupWithForm*/}
-        {/*  name={"user-avatar"}*/}
-        {/*  title={"Обновить аватар"}*/}
-        {/*  button={"Сохранить"}*/}
-        {/*  isOpen={isEditAvatarPopupOpen}*/}
-        {/*  onClose={closeAllPopups}*/}
-        {/*>*/}
-        {/*  <Input*/}
-        {/*    type={"url"}*/}
-        {/*    id={"avatar-link"}*/}
-        {/*    placeholder={"Ссылка на изображение (обязательно)"}*/}
-        {/*    name={"avatarLinkInput"}*/}
-        {/*    required={true}*/}
-        {/*    maxLength={""}*/}
-        {/*    minLength={""}*/}
-        {/*  />*/}
-        {/*</PopupWithForm>*/}
-
-        {/*<PopupWithForm*/}
-        {/*  name={"user-card"}*/}
-        {/*  title={"Новое место"}*/}
-        {/*  button={"Создать"}*/}
-        {/*  isOpen={isAddPlacePopupOpen}*/}
-        {/*  onClose={closeAllPopups}*/}
-        {/*>*/}
-        {/*  <Input*/}
-        {/*    type={"text"}*/}
-        {/*    id={"place-name"}*/}
-        {/*    placeholder={"Название (обязательно)"}*/}
-        {/*    name={"placeNameInput"}*/}
-        {/*    required={true}*/}
-        {/*    maxLength={"30"}*/}
-        {/*    minLength={"2"}*/}
-        {/*  />*/}
-        {/*  <Input*/}
-        {/*    type={"url"}*/}
-        {/*    id={"place-link"}*/}
-        {/*    placeholder={"Ссылка на картинку (обязательно)"}*/}
-        {/*    name={"placeLinkInput"}*/}
-        {/*    required={true}*/}
-        {/*    maxLength={""}*/}
-        {/*    minLength={""}*/}
-        {/*  />*/}
-        {/*</PopupWithForm>*/}
 
         <ImagePopup
           isOpen={selectedCard}

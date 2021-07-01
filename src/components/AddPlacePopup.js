@@ -28,8 +28,8 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
     onAddPlace({
       name: placeName,
       link: placeLink,
-      _id: currentUser._id,
-      // // likes: null,
+      // _id: currentUser._id,
+      likes: [],
       owner: {
         _id: currentUser._id,
       },
