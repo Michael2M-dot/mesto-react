@@ -1,17 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import Input from "./Input";
 import PopupWithForm from "./PopupWithForm";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+// import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
+const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
   const [placeName, setPlaceName] = useState("");
   const [placeLink, setPlaceLink] = useState("");
-  const currentUser = useContext(CurrentUserContext);
+  // const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
-    setPlaceName("");
-    setPlaceLink("");
-  }, [ onAddPlace ]);
+    if (!isSubmitted) {
+      setPlaceName("");
+      setPlaceLink("");
+    }
+  }, [onClose]);
 
   const handlePlaceLinkChange = (e) => {
     setPlaceLink(e.target.value);
@@ -24,9 +26,13 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (isSubmitted) {
+      return;
+    }
+
     onAddPlace({
       name: placeName,
-      link: placeLink
+      link: placeLink,
     });
   };
 
@@ -38,10 +44,11 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      idSubmitted={isSubmitted}
     >
       <Input
         type={"text"}
-        value={placeName}
+        value={placeName || ""}
         id={"place-name"}
         placeholder={"Название (обязательно)"}
         name={"placeNameInput"}

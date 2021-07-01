@@ -8,6 +8,7 @@ function PopupWithForm({
   onSubmit,
   children,
   button,
+  idSubmitted,
 }) {
   return (
     <section
@@ -41,6 +42,7 @@ function PopupWithForm({
             type="submit"
             className="button form__submit-btn"
             id="user-submit"
+            disabled={idSubmitted}
           >
             <div className="button__wrapper">
               <div className="button__text">{button}</div>

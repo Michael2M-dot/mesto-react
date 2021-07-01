@@ -6,9 +6,14 @@ const EditAvatarPopup = ({
   onClose,
   onUpdateAvatar,
   userAvatarRef,
+  isSubmitted,
 }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (isSubmitted) {
+      return;
+    }
 
     onUpdateAvatar({
       avatar: userAvatarRef.current.value,
@@ -25,6 +30,7 @@ const EditAvatarPopup = ({
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      idSubmitted={isSubmitted}
     >
       <label className="form__fieldset" htmlFor="avatar-link-input">
         <input

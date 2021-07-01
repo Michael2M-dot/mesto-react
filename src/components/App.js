@@ -18,6 +18,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const userAvatarRef = useRef(""); //отработка работы с ref в React
   const [cards, setCards] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   //получаем массив исходных карточек
   useEffect(() => {
@@ -35,6 +36,8 @@ const App = () => {
 
   //функционал добавления новой карточки пользователя
   const handleAddCardSubmit = (newCard) => {
+    setIsSubmitted(true);
+
     api
       .addCard(newCard)
       .then((newCard) => {
@@ -47,6 +50,7 @@ const App = () => {
       })
       .finally(() => {
         setIsAddPlacePopupOpen(false);
+        setIsSubmitted(false);
       });
   };
 
@@ -98,6 +102,8 @@ const App = () => {
 
   //функционал обновления аватара пользователя
   const handleAvatarUpdate = (data) => {
+    setIsSubmitted(true);
+
     api
       .updateAvatar(data)
       .then((data) => {
@@ -110,11 +116,14 @@ const App = () => {
       })
       .finally(() => {
         setIsEditAvatarPopupOpen(false);
+        setIsSubmitted(false);
       });
   };
 
   //функция обновления информации о пользователе
   const handleUserUpdate = (data) => {
+    setIsSubmitted(true);
+
     api
       .updateUserData(data)
       .then((data) => {
@@ -127,6 +136,7 @@ const App = () => {
       })
       .finally(() => {
         setIsEditProfilePopupOpen(false);
+        setIsSubmitted(false);
       });
   };
 
@@ -215,6 +225,7 @@ const App = () => {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUserUpdate}
+          isSubmitted={isSubmitted}
         />
 
         <EditAvatarPopup
@@ -222,12 +233,14 @@ const App = () => {
           onClose={closeAllPopups}
           onUpdateAvatar={handleAvatarUpdate}
           userAvatarRef={userAvatarRef}
+          isSubmitted={isSubmitted}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddCardSubmit}
+          isSubmitted={isSubmitted}
         />
 
         <ImagePopup

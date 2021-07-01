@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
   const currentUser = useContext(CurrentUserContext);
 
   const [name, setName] = useState("");
@@ -24,6 +24,10 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (isSubmitted) {
+      return;
+    }
+
     onUpdateUser({
       name,
       about: description,
@@ -38,6 +42,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      idSubmitted={isSubmitted}
     >
       <label className="form__fieldset" htmlFor="user-name-input">
         <input

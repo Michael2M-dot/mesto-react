@@ -31,7 +31,7 @@ class Api {
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
-        about: data.about
+        about: data.about,
       }),
     }).then((res) => this._checkStatus(res));
   }
@@ -42,7 +42,7 @@ class Api {
       headers: this._headers,
       body: JSON.stringify({
         name: card.name,
-        link: card.link
+        link: card.link,
       }),
     }).then((res) => this._checkStatus(res));
   }
