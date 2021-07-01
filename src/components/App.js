@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useContext} from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Header from "./Header.js";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -17,9 +17,8 @@ const App = () => {
   const [selectedCard, setSelectedCard] = useState(false);
   const [selectedCardData, setSelectedCardData] = useState(null); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
   const [currentUser, setCurrentUser] = useState({});
-  const userAvatarRef = useRef(''); //отработка работы с ref в React
+  const userAvatarRef = useRef(""); //отработка работы с ref в React
   const [cards, setCards] = useState([]);
-
 
   //получаем массив исходных карточек
   useEffect(() => {
@@ -33,27 +32,25 @@ const App = () => {
           `Непредвиденная ошибка при загрузке карточек: ${err.status} ${err.statusText}`
         );
       });
-  },[]);
-
-
+  }, []);
 
   //функционал добавления новой карточки пользователя
   const handleAddCardSubmit = (newCard) => {
     api
-        .addCard(newCard)
-        .then((newCard) => {
-          console.log(newCard)
-          setCards( [newCard, ...cards]);
-          console.log(cards)
-        })
-        .catch((err) => {
-          console.log(
-              `Непредвиденная ошибка при загрузки карточки пользователя: ${err.status} ${err.statusText}`
-          );
-        })
-        .finally(() => {
-          setIsAddPlacePopupOpen(false);
-        });
+      .addCard(newCard)
+      .then((newCard) => {
+        console.log(newCard);
+        setCards([newCard, ...cards]);
+        console.log(cards);
+      })
+      .catch((err) => {
+        console.log(
+          `Непредвиденная ошибка при загрузки карточки пользователя: ${err.status} ${err.statusText}`
+        );
+      })
+      .finally(() => {
+        setIsAddPlacePopupOpen(false);
+      });
   };
 
   //функция управления лайками на карточке
@@ -91,15 +88,15 @@ const App = () => {
   // функционал загрузки данных о пользователе с сервера
   useEffect(() => {
     api
-        .getUserData()
-        .then((userData) => {
-          setCurrentUser(userData);
-        })
-        .catch((err) => {
-          console.log(
-              `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
-          );
-        });
+      .getUserData()
+      .then((userData) => {
+        setCurrentUser(userData);
+      })
+      .catch((err) => {
+        console.log(
+          `Непредвиденная ошибка при загрузке данных пользователя: ${err.status} ${err.statusText}`
+        );
+      });
   }, []);
 
   //функционал обновления аватара пользователя
@@ -120,21 +117,21 @@ const App = () => {
   };
 
   //функция обновления информации о пользователе
-    const handleUserUpdate = (data) => {
-      api
-          .updateUserData(data)
-          .then(() => {
-            setCurrentUser(data);
-          })
-          .catch((err) => {
-            console.log(
-                `Непредвиденная ошибка при передаче на сервер данных пользователя: ${err.status} ${err.statusText}`
-            );
-          })
-          .finally(() => {
-            setIsEditProfilePopupOpen(false);
-          });
-    };
+  const handleUserUpdate = (data) => {
+    api
+      .updateUserData(data)
+      .then(() => {
+        setCurrentUser(data);
+      })
+      .catch((err) => {
+        console.log(
+          `Непредвиденная ошибка при передаче на сервер данных пользователя: ${err.status} ${err.statusText}`
+        );
+      })
+      .finally(() => {
+        setIsEditProfilePopupOpen(false);
+      });
+  };
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -162,7 +159,7 @@ const App = () => {
       setIsEditAvatarPopupOpen(false);
       setIsAddPlacePopupOpen(false);
       setSelectedCard(false);
-      userAvatarRef.current.value = ''
+      userAvatarRef.current.value = "";
 
       // !selectedCard ? setTimeout(()=> setSelectedCardData({}), 2000) : '' исправить баг при открытии пустой картинки выходит прошлое изображение
     }
@@ -175,7 +172,7 @@ const App = () => {
       setIsEditAvatarPopupOpen(false);
       setIsAddPlacePopupOpen(false);
       setSelectedCard(false);
-      userAvatarRef.current.value = ''
+      userAvatarRef.current.value = "";
     }
   };
 
@@ -200,7 +197,7 @@ const App = () => {
     selectedCard,
   ]);
 
-  console.log(cards)
+  console.log(cards);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -208,15 +205,15 @@ const App = () => {
         <div className="page__container">
           <Header mix={"page__header section"} />
 
-            <Main
-                onEditProfile={handleEditProfileClick}
-                onEditAvatar={handleEditAvatarClick}
-                onAddPlace={handleAddPlaceClick}
-                onCardClick={handleCardClick}
-                cards={cards}
-                onLikeClick={handleCardLike}
-                onDeleteClick={handleCardDelete}
-            />
+          <Main
+            onEditProfile={handleEditProfileClick}
+            onEditAvatar={handleEditAvatarClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onLikeClick={handleCardLike}
+            onDeleteClick={handleCardDelete}
+          />
 
           <Footer mix={"page__footer"} />
         </div>

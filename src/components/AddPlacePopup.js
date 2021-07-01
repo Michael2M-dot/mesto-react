@@ -1,18 +1,17 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Input from "./Input";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
-  const [placeName, setPlaceName] = useState('');
-  const [placeLink, setPlaceLink] = useState('');
+  const [placeName, setPlaceName] = useState("");
+  const [placeLink, setPlaceLink] = useState("");
   const currentUser = useContext(CurrentUserContext);
 
-  useEffect(() =>{
-    setPlaceName('')
-    setPlaceLink('')
-  }, [setPlaceName, setPlaceLink, onAddPlace])
-
+  useEffect(() => {
+    setPlaceName("");
+    setPlaceLink("");
+  }, [setPlaceName, setPlaceLink, onAddPlace]);
 
   const handlePlaceLinkChange = (e) => {
     setPlaceLink(e.target.value);
@@ -35,7 +34,6 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
       },
     });
   };
-
 
   return (
     <PopupWithForm

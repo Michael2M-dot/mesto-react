@@ -48,13 +48,13 @@ const Main = ({
       <section className="elements">
         <ul className="elements__list">
           {cards.map((card) => (
-              <Card
-                key={card._id}
-                card={card}
-                onCardClick={onCardClick}
-                onCardLike={onLikeClick}
-                onCardDelete={onDeleteClick}
-              />
+            <Card
+              key={card._id}
+              card={card}
+              onCardClick={onCardClick}
+              onCardLike={onLikeClick}
+              onCardDelete={onDeleteClick}
+            />
           ))}
         </ul>
       </section>
