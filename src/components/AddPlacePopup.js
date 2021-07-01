@@ -11,7 +11,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
   useEffect(() => {
     setPlaceName("");
     setPlaceLink("");
-  }, [setPlaceName, setPlaceLink, onAddPlace]);
+  }, [ onAddPlace ]);
 
   const handlePlaceLinkChange = (e) => {
     setPlaceLink(e.target.value);
