@@ -11,7 +11,7 @@
       "src": "mesto_logo_big.svg",
       "type": "image/svg",
       "sizes": "192x192"
-    },
+    }
   ],
   "start_url": ".",
   "display": "standalone",
