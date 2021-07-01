@@ -6,8 +6,9 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import ImagePopup from "./ImagePopup";
-import api from "../utils/Api";
+import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import PopupWithSubmit from "./PopupWithSubmit";
 
 const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -19,6 +20,8 @@ const App = () => {
   const userAvatarRef = useRef(""); //отработка работы с ref в React
   const [cards, setCards] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isPopupWithSubmitOpen, setIsPopupWithSubmitOpen] =useState(false)
+  const [deletedCardData, setDeletedCardData] = useState("")
 
   //получаем массив исходных карточек
   useEffect(() => {
@@ -74,6 +77,8 @@ const App = () => {
 
   //функция удаления карточки пользователя
   const handleCardDelete = (card) => {
+    setIsSubmitted(true);
+
     api
       .deleteCard(card._id)
       .then(() => {
@@ -83,6 +88,10 @@ const App = () => {
         console.log(
           `Ошибка при удалении карточки: ${err.status} ${err.statusText}`
         );
+      })
+        .finally(() => {
+        setIsPopupWithSubmitOpen(false);
+        setIsSubmitted(false);
       });
   };
 
@@ -157,6 +166,11 @@ const App = () => {
     setSelectedCardData(value);
   };
 
+  const handlePopupWithForm =(data)=>{
+    setIsPopupWithSubmitOpen(true)
+    setDeletedCardData(data)
+  }
+
   const closeAllPopups = (evt) => {
     if (
       evt.target.classList.contains("page__popup") ||
@@ -166,6 +180,7 @@ const App = () => {
       setIsEditAvatarPopupOpen(false);
       setIsAddPlacePopupOpen(false);
       setSelectedCard(false);
+      setIsPopupWithSubmitOpen(false);
       userAvatarRef.current.value = "";
     }
   };
@@ -177,6 +192,7 @@ const App = () => {
       setIsEditAvatarPopupOpen(false);
       setIsAddPlacePopupOpen(false);
       setSelectedCard(false);
+      setIsPopupWithSubmitOpen(false);
       userAvatarRef.current.value = "";
     }
   };
@@ -215,7 +231,8 @@ const App = () => {
             onCardClick={handleCardClick}
             cards={cards}
             onLikeClick={handleCardLike}
-            onDeleteClick={handleCardDelete}
+            // onDeleteClick={handleCardDelete}
+            onDeleteClick={handlePopupWithForm}
           />
 
           <Footer mix={"page__footer"} />
@@ -248,6 +265,15 @@ const App = () => {
           data={selectedCardData}
           onClose={closeAllPopups}
         />
+
+        <PopupWithSubmit
+          isOpen={isPopupWithSubmitOpen}
+          onClose={closeAllPopups}
+          isSubmitted={isSubmitted}
+          deleteCard={handleCardDelete}
+          data={deletedCardData}
+          />
+
       </div>
     </CurrentUserContext.Provider>
   );

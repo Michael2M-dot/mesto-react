@@ -29,7 +29,7 @@ const Card = ({ onCardClick, onCardLike, onCardDelete, card }) => {
   }`;
 
   //обработчик клика удаления карточки пользователя
-  const handleDeleteClickClick = () => {
+  const handleDeleteClick = () => {
     onCardDelete(card);
   };
 
@@ -62,7 +62,7 @@ const Card = ({ onCardClick, onCardLike, onCardDelete, card }) => {
         type="button"
         className={cardDeleteButtonClassName}
         id="delete-Btn"
-        onClick={handleDeleteClickClick}
+        onClick={handleDeleteClick}
       />
     </li>
   );

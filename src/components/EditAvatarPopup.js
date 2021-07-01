@@ -26,7 +26,7 @@ const EditAvatarPopup = ({
     <PopupWithForm
       name={"user-avatar"}
       title={"Обновить аватар"}
-      button={"Сохранить"}
+      button={!isSubmitted ? "Сохранить" : "Сохранение"}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

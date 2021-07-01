@@ -33,7 +33,6 @@ function PopupWithForm({
           id={`${name}`}
           name="userProfileForm"
           autoComplete="off"
-          noValidate
           onSubmit={onSubmit}
         >
           {children}

@@ -11,7 +11,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [onUpdateUser]);
+  }, [currentUser]);
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -38,7 +38,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
     <PopupWithForm
       name={"user-profile"}
       title={"Редактировать профиль"}
-      button={"Сохранить"}
+      button={!isSubmitted ? "Сохранить" : "Сохранение"}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
