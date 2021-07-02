@@ -20,6 +20,7 @@ const PopupWithSubmit = ({
 
   return (
     <PopupWithForm
+      name={"user-submit"}
       title={"Вы уверены?"}
       button={!isSubmitted ? "Да" : "Удаление"}
       isOpen={isOpen}
