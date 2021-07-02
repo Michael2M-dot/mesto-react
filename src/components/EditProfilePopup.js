@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import Input from "./Input";
 
 const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
   const currentUser = useContext(CurrentUserContext);
@@ -44,37 +45,30 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
       onSubmit={handleSubmit}
       idSubmitted={isSubmitted}
     >
-      <label className="form__fieldset" htmlFor="user-name-input">
-        <input
-          type="text"
-          value={name || ""}
-          className="form__input"
-          id="user-name-input"
-          name="userNameInput"
-          placeholder="Имя"
-          required
-          maxLength="40"
-          minLength="2"
-          onChange={handleChangeName}
-        />
-        <span className="form__input-error" id="user-name-input-error" />
-      </label>
+      <Input
+        type={"text"}
+        value={name || ""}
+        id={"user-name"}
+        name={"userNameInput"}
+        placeholder={"Имя"}
+        required={"true"}
+        maxLength={"40"}
+        minLength={"2"}
+        onChange={handleChangeName}
+      />
 
-      <label className="form__fieldset" htmlFor="user-job-input">
-        <input
-          type="text"
+      <Input
+          type={"text"}
           value={description || ""}
-          className="form__input"
-          id="user-job-input"
-          name="userJobInput"
-          placeholder="О себе"
-          required
-          maxLength="200"
-          minLength="2"
-          onChange={handleChangeDescription}
-        />
-        <span className="form__input-error" id="user-job-input-error" />
-      </label>
+          id={"user-job"}
+          name={"userNameInput"}
+          placeholder={"О себе"}
+          required={"true"}
+          maxLength={"200"}
+          minLength={"2"}
+          onChange={handleChangeName}
+      />
+
     </PopupWithForm>
   );
 };
