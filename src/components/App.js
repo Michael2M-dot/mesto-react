@@ -14,13 +14,13 @@ const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(false);
-  const [selectedCardData, setSelectedCardData] = useState(""); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [isPopupWithSubmitOpen, setIsPopupWithSubmitOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({}); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isPopupWithSubmitOpen, setIsPopupWithSubmitOpen] = useState(false);
-  const [deletedCardData, setDeletedCardData] = useState("");
+  const [deletedCardData, setDeletedCardData] = useState({});
 
   //получаем массив исходных карточек
   useEffect(() => {
@@ -65,7 +65,7 @@ const App = () => {
         console.log(
           `Непредвиденная ошибка при загрузки карточки пользователя: ${err.status} ${err.statusText}`
         );
-      })
+      });
   };
 
   //функция управления лайками на карточке
@@ -101,7 +101,7 @@ const App = () => {
         console.log(
           `Ошибка при удалении карточки: ${err.status} ${err.statusText}`
         );
-      })
+      });
   };
 
   //функционал обновления аватара пользователя
@@ -119,7 +119,7 @@ const App = () => {
         console.log(
           `Непредвиденная ошибка при загрузки изображения аватара: ${err.status} ${err.statusText}`
         );
-      })
+      });
   };
 
   //функция обновления информации о пользователе
@@ -137,7 +137,7 @@ const App = () => {
         console.log(
           `Непредвиденная ошибка при передаче на сервер данных пользователя: ${err.status} ${err.statusText}`
         );
-      })
+      });
   };
 
   //функция управления открытием и закрытием попапов
@@ -164,17 +164,17 @@ const App = () => {
 
   //открываем попап полноразмерного изображения карточки
   const handleCardClick = (value) => {
-    setSelectedCard(true);
-    setSelectedCardData(value);
+    setIsImagePopupOpen(true);
+    setSelectedCard(value);
   };
 
   //функция закрытия всех попапов по нажатию на крестик или клику на оверлей
   const closeAllPopups = (evt) => {
-      setIsEditProfilePopupOpen(false);
-      setIsEditAvatarPopupOpen(false);
-      setIsAddPlacePopupOpen(false);
-      setSelectedCard(false);
-      setIsPopupWithSubmitOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsImagePopupOpen(false);
+    setIsPopupWithSubmitOpen(false);
   };
 
   //установка слушателя для закрытия попапа по ESC
@@ -183,7 +183,8 @@ const App = () => {
       isEditProfilePopupOpen ||
       isAddPlacePopupOpen ||
       isEditAvatarPopupOpen ||
-      selectedCard
+      isImagePopupOpen ||
+      isPopupWithSubmitOpen
     ) {
       document.addEventListener("keydown", handleEscClose);
     }
@@ -195,16 +196,17 @@ const App = () => {
     isEditProfilePopupOpen,
     isAddPlacePopupOpen,
     isEditAvatarPopupOpen,
-    selectedCard,
+    isImagePopupOpen,
+    isPopupWithSubmitOpen,
   ]);
 
   //обработчик закрытия попапов по клику на оверлей или крестик
   const handleClickClosePopup = (e) => {
     if (
-        e.target.classList.contains("page__popup") ||
-        e.target.classList.contains("popup__button-close")
+      e.target.classList.contains("page__popup") ||
+      e.target.classList.contains("popup__button-close")
     ) {
-      closeAllPopups()
+      closeAllPopups();
     }
   };
 
@@ -254,8 +256,8 @@ const App = () => {
         />
 
         <ImagePopup
-          isOpen={selectedCard}
-          data={selectedCardData}
+          isOpen={isImagePopupOpen}
+          data={selectedCard}
           onClose={handleClickClosePopup}
         />
 

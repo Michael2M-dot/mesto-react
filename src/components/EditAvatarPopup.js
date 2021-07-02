@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
 import Input from "./Input";
 
@@ -9,7 +9,6 @@ const EditAvatarPopup = ({
   // userAvatarRef,
   isSubmitted,
 }) => {
-
   const userAvatarRef = useRef(""); //отработка работы с ref в React
 
   const handleSubmit = (e) => {
@@ -36,7 +35,6 @@ const EditAvatarPopup = ({
       onSubmit={handleSubmit}
       idSubmitted={isSubmitted}
     >
-
       {/*<Input*/}
       {/*    ref={userAvatarRef}*/}
       {/*    type={"url"}*/}

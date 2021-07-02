@@ -58,17 +58,16 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
       />
 
       <Input
-          type={"text"}
-          value={description || ""}
-          id={"user-job"}
-          name={"userNameInput"}
-          placeholder={"О себе"}
-          required={"true"}
-          maxLength={"200"}
-          minLength={"2"}
-          onChange={handleChangeDescription}
+        type={"text"}
+        value={description || ""}
+        id={"user-job"}
+        name={"userNameInput"}
+        placeholder={"О себе"}
+        required={"true"}
+        maxLength={"200"}
+        minLength={"2"}
+        onChange={handleChangeDescription}
       />
-
     </PopupWithForm>
   );
 };
