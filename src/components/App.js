@@ -17,7 +17,6 @@ const App = () => {
   const [selectedCard, setSelectedCard] = useState(false);
   const [selectedCardData, setSelectedCardData] = useState(""); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
   const [currentUser, setCurrentUser] = useState({});
-  // const userAvatarRef = useRef(""); //отработка работы с ref в React
   const [cards, setCards] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isPopupWithSubmitOpen, setIsPopupWithSubmitOpen] = useState(false);
@@ -59,16 +58,14 @@ const App = () => {
       .addCard(newCard)
       .then((newCard) => {
         setCards([newCard, ...cards]);
+        setIsAddPlacePopupOpen(false);
+        setIsSubmitted(false);
       })
       .catch((err) => {
         console.log(
           `Непредвиденная ошибка при загрузки карточки пользователя: ${err.status} ${err.statusText}`
         );
       })
-      .finally(() => {
-        setIsAddPlacePopupOpen(false);
-        setIsSubmitted(false);
-      });
   };
 
   //функция управления лайками на карточке
@@ -97,16 +94,14 @@ const App = () => {
       .deleteCard(card._id)
       .then(() => {
         setCards(cards.filter((item) => item._id !== card._id));
+        setIsPopupWithSubmitOpen(false);
+        setIsSubmitted(false);
       })
       .catch((err) => {
         console.log(
           `Ошибка при удалении карточки: ${err.status} ${err.statusText}`
         );
       })
-      .finally(() => {
-        setIsPopupWithSubmitOpen(false);
-        setIsSubmitted(false);
-      });
   };
 
   //функционал обновления аватара пользователя
@@ -117,16 +112,14 @@ const App = () => {
       .updateAvatar(data)
       .then((data) => {
         setCurrentUser(Object.assign(currentUser, { avatar: data.avatar }));
+        setIsEditAvatarPopupOpen(false);
+        setIsSubmitted(false);
       })
       .catch((err) => {
         console.log(
           `Непредвиденная ошибка при загрузки изображения аватара: ${err.status} ${err.statusText}`
         );
       })
-      .finally(() => {
-        setIsEditAvatarPopupOpen(false);
-        setIsSubmitted(false);
-      });
   };
 
   //функция обновления информации о пользователе
@@ -137,16 +130,14 @@ const App = () => {
       .updateUserData(data)
       .then((data) => {
         setCurrentUser(data);
+        setIsEditProfilePopupOpen(false);
+        setIsSubmitted(false);
       })
       .catch((err) => {
         console.log(
           `Непредвиденная ошибка при передаче на сервер данных пользователя: ${err.status} ${err.statusText}`
         );
       })
-      .finally(() => {
-        setIsEditProfilePopupOpen(false);
-        setIsSubmitted(false);
-      });
   };
 
   //функция управления открытием и закрытием попапов
