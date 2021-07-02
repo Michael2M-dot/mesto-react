@@ -1,13 +1,17 @@
-import React from "react";
+import React, {useRef} from "react";
 import PopupWithForm from "./PopupWithForm";
+import Input from "./Input";
 
 const EditAvatarPopup = ({
   isOpen,
   onClose,
   onUpdateAvatar,
-  userAvatarRef,
+  // userAvatarRef,
   isSubmitted,
 }) => {
+
+  const userAvatarRef = useRef(""); //отработка работы с ref в React
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -32,6 +36,16 @@ const EditAvatarPopup = ({
       onSubmit={handleSubmit}
       idSubmitted={isSubmitted}
     >
+
+      {/*<Input*/}
+      {/*    ref={userAvatarRef}*/}
+      {/*    type={"url"}*/}
+      {/*    id={"avatar-link"}*/}
+      {/*    name={"avatarLinkInput"}*/}
+      {/*    placeholder={"Ссылка на изображение (обязательно)"}*/}
+      {/*    required={"true"}*/}
+      {/*/>*/}
+
       <label className="form__fieldset" htmlFor="avatar-link-input">
         <input
           ref={userAvatarRef}

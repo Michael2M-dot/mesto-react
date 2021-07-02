@@ -17,7 +17,7 @@ const App = () => {
   const [selectedCard, setSelectedCard] = useState(false);
   const [selectedCardData, setSelectedCardData] = useState(""); //стэйт создан для хранения данных о карточке, без него после закрытия на мгновенье появляется окно с alt
   const [currentUser, setCurrentUser] = useState({});
-  const userAvatarRef = useRef(""); //отработка работы с ref в React
+  // const userAvatarRef = useRef(""); //отработка работы с ref в React
   const [cards, setCards] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isPopupWithSubmitOpen, setIsPopupWithSubmitOpen] = useState(false);
@@ -179,17 +179,11 @@ const App = () => {
 
   //функция закрытия всех попапов по нажатию на крестик или клику на оверлей
   const closeAllPopups = (evt) => {
-    if (
-      evt.target.classList.contains("page__popup") ||
-      evt.target.classList.contains("popup__button-close")
-    ) {
       setIsEditProfilePopupOpen(false);
       setIsEditAvatarPopupOpen(false);
       setIsAddPlacePopupOpen(false);
       setSelectedCard(false);
       setIsPopupWithSubmitOpen(false);
-      userAvatarRef.current.value = "";
-    }
   };
 
   //установка слушателя для закрытия попапа по ESC
@@ -213,15 +207,20 @@ const App = () => {
     selectedCard,
   ]);
 
-  //закрытие попапов по нажатию ESC
-  const handleEscClose = (evt) => {
-    if (evt.keyCode === 27) {
-      setIsEditProfilePopupOpen(false);
-      setIsEditAvatarPopupOpen(false);
-      setIsAddPlacePopupOpen(false);
-      setSelectedCard(false);
-      setIsPopupWithSubmitOpen(false);
-      userAvatarRef.current.value = "";
+  //обработчик закрытия попапов по клику на оверлей или крестик
+  const handleClickClosePopup = (e) => {
+    if (
+        e.target.classList.contains("page__popup") ||
+        e.target.classList.contains("popup__button-close")
+    ) {
+      closeAllPopups()
+    }
+  };
+
+  //обработчик закрытия попапов по нажатию ESC
+  const handleEscClose = (e) => {
+    if (e.keyCode === 27) {
+      closeAllPopups();
     }
   };
 
@@ -230,7 +229,6 @@ const App = () => {
       <div className="page">
         <div className="page__container">
           <Header mix={"page__header section"} />
-
           <Main
             onEditProfile={handleEditProfileClick}
             onEditAvatar={handleEditAvatarClick}
@@ -240,28 +238,26 @@ const App = () => {
             onLikeClick={handleCardLike}
             onDeleteClick={handlePopupWithForm}
           />
-
           <Footer mix={"page__footer"} />
         </div>
 
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
+          onClose={handleClickClosePopup}
           onUpdateUser={handleUserUpdate}
           isSubmitted={isSubmitted}
         />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
+          onClose={handleClickClosePopup}
           onUpdateAvatar={handleAvatarUpdate}
-          userAvatarRef={userAvatarRef}
           isSubmitted={isSubmitted}
         />
 
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
+          onClose={handleClickClosePopup}
           onAddPlace={handleAddCardSubmit}
           isSubmitted={isSubmitted}
         />
@@ -269,12 +265,12 @@ const App = () => {
         <ImagePopup
           isOpen={selectedCard}
           data={selectedCardData}
-          onClose={closeAllPopups}
+          onClose={handleClickClosePopup}
         />
 
         <PopupWithSubmit
           isOpen={isPopupWithSubmitOpen}
-          onClose={closeAllPopups}
+          onClose={handleClickClosePopup}
           isSubmitted={isSubmitted}
           deleteCard={handleCardDelete}
           data={deletedCardData}

@@ -12,7 +12,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -66,7 +66,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
           required={"true"}
           maxLength={"200"}
           minLength={"2"}
-          onChange={handleChangeName}
+          onChange={handleChangeDescription}
       />
 
     </PopupWithForm>
