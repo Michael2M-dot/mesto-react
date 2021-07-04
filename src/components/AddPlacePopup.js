@@ -1,10 +1,44 @@
 import React, { useEffect, useState } from "react";
 import Input from "./Input";
 import PopupWithForm from "./PopupWithForm";
+import {urlRegex} from "../utils/regex";
 
 const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
   const [placeName, setPlaceName] = useState("");
   const [placeLink, setPlaceLink] = useState("");
+  const [isValidLink, setIsValidLink] = useState(false);
+  const [isValidName, setIsValidName] = useState(false)
+  const [validMessageLink, setValidMessageLink] = useState('');
+  const [validMessage, setValidMessage] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false)
+
+  // useEffect(()=>{
+  //   if(isValidName){
+  //     setIsFormValid(true)
+  //   } else if(isSubmitted){
+  //     setIsFormValid(false);
+  //   }else{
+  //     setIsFormValid(false);
+  //   }
+  // },[isValidName])
+
+  useEffect(()=>{
+    // console.log(isValidName)
+    // console.log(isValidLink)
+    console.log(isSubmitted)
+
+
+    if(isValidName && isValidLink){
+      setIsFormValid(true);
+    } else if (isSubmitted){
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  },[placeLink, placeName, isValidLink, isValidName, isFormValid, isSubmitted])
+
+  console.log(isFormValid)
+
 
   useEffect(() => {
     if (!isSubmitted) {
@@ -13,13 +47,57 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
     }
   }, [isSubmitted]);
 
+  //функционал валидации поля ввода ссылки на картинку
   const handlePlaceLinkChange = (e) => {
-    setPlaceLink(e.target.value);
+    if(!urlRegex.test(e.target.value)){
+      setIsValidLink(false)
+      setValidMessageLink(e.target.validationMessage)
+      setPlaceLink(e.target.value);
+    } else if(e.target.value.length <= 2){
+      setIsValidLink(false)
+      setValidMessageLink(e.target.validationMessage)
+      setPlaceLink(e.target.value)
+    } else if(e.target.value ==="") {
+      setIsValidLink(false)
+      setValidMessageLink(e.target.validationMessage)
+      setPlaceLink(e.target.value);
+    } else {
+      setIsValidLink(true)
+      setPlaceLink(e.target.value);
+      setValidMessageLink('')
+    }
   };
 
+
+  //функционал валидации поля ввода имени
   const handlePlaceNameChange = (e) => {
-    setPlaceName(e.target.value);
+    if(e.target.value.length <= 2){
+      setIsValidName(false)
+      setValidMessage(e.target.validationMessage)
+      setPlaceName(e.target.value);
+    } else if(e.target.value ===""){
+      setIsValidName(false)
+      setValidMessage(e.target.validationMessage)
+      setPlaceName(e.target.value);
+    } else{
+      setIsValidName(true)
+      setPlaceName(e.target.value);
+      setValidMessage('')
+    }
   };
+
+
+  // const handlePlaceLinkChange = (e) => {
+  //   setPlaceLink(e.target.value);
+  // };
+
+  // const handlePlaceNameChange = (e) => {
+  //   setPlaceName(e.target.value);
+  // };
+
+
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +110,12 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
       name: placeName,
       link: placeLink,
     });
+
+    setIsValidLink(false);
+    setIsValidName(false);
+
   };
+
 
   return (
     <PopupWithForm
@@ -42,7 +125,8 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      idSubmitted={isSubmitted}
+      isSubmitted={isSubmitted}
+      isFormValid={isFormValid}
     >
       <Input
         type="text"
@@ -50,10 +134,12 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
         id="place-name"
         placeholder="Название (обязательно)"
         name="placeNameInput"
-        required
+        required={true}
         maxLength="30"
         minLength="2"
         onChange={handlePlaceNameChange}
+        onClose={onClose}
+        notice={!isValidName ? validMessage : ""}
       />
       <Input
         type="url"
@@ -61,8 +147,10 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
         id="place-link"
         placeholder="Ссылка на картинку (обязательно)"
         name="placeLinkInput"
-        required
+        required={true}
         onChange={handlePlaceLinkChange}
+        onClose={onClose}
+        notice={!isValidLink ? validMessageLink : ""}
       />
     </PopupWithForm>
   );

@@ -8,7 +8,6 @@ const PopupWithSubmit = ({
   isSubmitted,
   data,
 }) => {
-  const [buttonText, setButtonText] = useState("Да");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +27,8 @@ const PopupWithSubmit = ({
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      idSubmitted={isSubmitted}
+      isSubmitted={isSubmitted}
+      isFormValid={true}
     />
   );
 };

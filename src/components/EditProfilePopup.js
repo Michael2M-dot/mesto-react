@@ -51,7 +51,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
         id={"user-name"}
         name={"userNameInput"}
         placeholder={"Имя"}
-        required={"true"}
+        required={true}
         maxLength={"40"}
         minLength={"2"}
         onChange={handleChangeName}
@@ -63,7 +63,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
         id={"user-job"}
         name={"userNameInput"}
         placeholder={"О себе"}
-        required={"true"}
+        required={true}
         maxLength={"200"}
         minLength={"2"}
         onChange={handleChangeDescription}

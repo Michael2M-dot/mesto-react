@@ -46,7 +46,7 @@ const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, isSubmitted }) => {
           id="avatar-link-input"
           name="avatarLinkInput"
           placeholder="Ссылка на изображение (обязательно)"
-          required
+          required={true}
         />
         <span className="form__input-error" id="avatar-link-input-error" />
       </label>

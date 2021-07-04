@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./Header.js";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -95,7 +95,7 @@ const App = () => {
       .then(() => {
         setCards(cards.filter((item) => item._id !== card._id));
         setIsPopupWithSubmitOpen(false);
-        setTimeout(() => setIsSubmitted(false), 5000);
+        setTimeout(() => setIsSubmitted(false), 3000);
       })
       .catch((err) => {
         console.log(
@@ -113,7 +113,7 @@ const App = () => {
       .then((data) => {
         setCurrentUser(Object.assign(currentUser, { avatar: data.avatar }));
         setIsEditAvatarPopupOpen(false);
-        setTimeout(() => setIsSubmitted(false), 5000);
+        setTimeout(() => setIsSubmitted(false), 3000);
       })
       .catch((err) => {
         console.log(
@@ -131,7 +131,7 @@ const App = () => {
       .then((data) => {
         setCurrentUser(data);
         setIsEditProfilePopupOpen(false);
-        setTimeout(() => setIsSubmitted(false), 5000);
+        setTimeout(() => setIsSubmitted(false), 3000);
       })
       .catch((err) => {
         console.log(

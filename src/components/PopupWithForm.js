@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 function PopupWithForm({
   name,
@@ -8,8 +8,10 @@ function PopupWithForm({
   onSubmit,
   children,
   button,
-  idSubmitted,
+  isSubmitted,
+  isFormValid
 }) {
+
   return (
     <section
       className={`popup page__popup section ${
@@ -39,15 +41,15 @@ function PopupWithForm({
             arial-lable="Подтвердите действие пользователя"
             type="submit"
             className={`button form__submit-btn ${
-              idSubmitted ? "form__submit-btn_disabled" : ""
+             isSubmitted || !isFormValid ? "form__submit-btn_disabled" : ""
             }`}
-            disabled={idSubmitted}
+            disabled={isSubmitted}
           >
             <div className="button__wrapper">
               <div className="button__text">{button}</div>
               <div
                 className={`button__jumping-dots ${
-                  idSubmitted ? "" : "button__jumping-dots_visibility_hidden"
+                    isSubmitted ? "" : "button__jumping-dots_visibility_hidden"
                 }`}
               >
                 <span className="button__jumping-dots jump">.</span>
