@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 const PopupWithSubmit = ({
@@ -8,9 +8,7 @@ const PopupWithSubmit = ({
   isSubmitted,
   data,
 }) => {
-  const [buttonText, setButtonText] = useState('Да')
-
-
+  const [buttonText, setButtonText] = useState("Да");
 
   const handleSubmit = (e) => {
     e.preventDefault();
