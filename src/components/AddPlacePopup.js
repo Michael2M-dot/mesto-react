@@ -50,7 +50,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
         id="place-name"
         placeholder="Название (обязательно)"
         name="placeNameInput"
-        required
+        required={true}
         maxLength="30"
         minLength="2"
         onChange={handlePlaceNameChange}
@@ -61,7 +61,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
         id="place-link"
         placeholder="Ссылка на картинку (обязательно)"
         name="placeLinkInput"
-        required
+        required={true}
         onChange={handlePlaceLinkChange}
       />
     </PopupWithForm>
