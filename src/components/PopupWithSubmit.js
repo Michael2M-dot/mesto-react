@@ -8,7 +8,6 @@ const PopupWithSubmit = ({
   isSubmitted,
   data,
 }) => {
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
