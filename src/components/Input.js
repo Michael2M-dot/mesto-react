@@ -7,14 +7,6 @@ const Input = (props) => {
         {...props}
         className="form__input"
         id={`${props.id}-input`}
-        // type={props.type}
-        // value={props.value}
-        // name={props.name}
-        // placeholder={props.placeholder}
-        // required={props.required}
-        // maxLength={props.maxLength}
-        // minLength={props.minLength}
-        // onChange={props.onChange}
       />
       <span className="form__input-error" id={`${props.id}-input-error`} />
     </label>

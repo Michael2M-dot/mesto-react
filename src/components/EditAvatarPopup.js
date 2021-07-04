@@ -6,7 +6,6 @@ const EditAvatarPopup = ({
   isOpen,
   onClose,
   onUpdateAvatar,
-  // userAvatarRef,
   isSubmitted,
 }) => {
   const userAvatarRef = useRef(""); //отработка работы с ref в React

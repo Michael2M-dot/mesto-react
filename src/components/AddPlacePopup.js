@@ -57,7 +57,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
       />
       <Input
         type="url"
-        value={placeLink}
+        value={placeLink || ""}
         id="place-link"
         placeholder="Ссылка на картинку (обязательно)"
         name="placeLinkInput"
