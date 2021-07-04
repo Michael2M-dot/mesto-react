@@ -2,25 +2,74 @@ import React, { useState, useContext, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Input from "./Input";
+import {urlRegex} from "../utils/regex";
 
 const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
   const currentUser = useContext(CurrentUserContext);
-
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [isValidUserName, setIsValidUserName] = useState(false);
+  const [isValidUserAbout, setIsValidUserAbout] = useState(false)
+  const [validMessageName, setValidMessageName] = useState('');
+  const [validMessageAbout, setValidMessageAbout] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false)
+
+  useEffect(()=>{
+    if(isValidUserName && isValidUserAbout){
+      setIsFormValid(true);
+    } else if (isSubmitted){
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  },[name, description, currentUser, isValidUserName, isValidUserAbout, isFormValid, isSubmitted])
+
+
+  const handleChangeName = (e) => {
+     if(e.target.value.length <= 2 || e.target.value.length > 50){
+       setIsValidUserName(false)
+       setValidMessageName(e.target.validationMessage)
+       setName(e.target.value)
+    } else if(e.target.value ==="") {
+       setIsValidUserName(false)
+       setValidMessageName(e.target.validationMessage)
+       setName(e.target.value)
+    } else {
+       setIsValidUserName(true)
+       setName(e.target.value);
+       setValidMessageName('')
+    }
+  };
+
+
+  const handleChangeDescription = (e) => {
+    if(e.target.value.length <= 2 || e.target.value.length > 200){
+      setIsValidUserAbout(false)
+      setValidMessageAbout(e.target.validationMessage)
+      setDescription(e.target.value)
+    } else if(e.target.value ==="") {
+      setIsValidUserAbout(false)
+      setValidMessageAbout(e.target.validationMessage)
+      setDescription(e.target.value)
+    } else {
+      setIsValidUserAbout(true)
+      setDescription(e.target.value);
+      setValidMessageAbout('')
+    }
+  };
 
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
   }, [currentUser, isOpen]);
 
-  const handleChangeName = (e) => {
-    setName(e.target.value);
-  };
+  // const handleChangeName = (e) => {
+  //   setName(e.target.value);
+  // };
 
-  const handleChangeDescription = (e) => {
-    setDescription(e.target.value);
-  };
+  // const handleChangeDescription = (e) => {
+  //   setDescription(e.target.value);
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,6 +82,10 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
       name,
       about: description,
     });
+
+    setIsValidUserAbout(false);
+    setIsValidUserName(false);
+    setIsFormValid(false)
   };
 
   return (
@@ -43,7 +96,8 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      idSubmitted={isSubmitted}
+      isSubmitted={isSubmitted}
+      isFormValid={isFormValid}
     >
       <Input
         type={"text"}
@@ -55,6 +109,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
         maxLength={"40"}
         minLength={"2"}
         onChange={handleChangeName}
+        notice={!isValidUserName ? validMessageName : ""}
       />
 
       <Input
@@ -67,6 +122,7 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser, isSubmitted }) => {
         maxLength={"200"}
         minLength={"2"}
         onChange={handleChangeDescription}
+        notice={!isValidUserAbout ? validMessageAbout : ""}
       />
     </PopupWithForm>
   );

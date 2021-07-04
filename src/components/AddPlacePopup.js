@@ -12,22 +12,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
   const [validMessage, setValidMessage] = useState('');
   const [isFormValid, setIsFormValid] = useState(false)
 
-  // useEffect(()=>{
-  //   if(isValidName){
-  //     setIsFormValid(true)
-  //   } else if(isSubmitted){
-  //     setIsFormValid(false);
-  //   }else{
-  //     setIsFormValid(false);
-  //   }
-  // },[isValidName])
-
   useEffect(()=>{
-    // console.log(isValidName)
-    // console.log(isValidLink)
-    console.log(isSubmitted)
-
-
     if(isValidName && isValidLink){
       setIsFormValid(true);
     } else if (isSubmitted){
@@ -36,9 +21,6 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
       setIsFormValid(false);
     }
   },[placeLink, placeName, isValidLink, isValidName, isFormValid, isSubmitted])
-
-  console.log(isFormValid)
-
 
   useEffect(() => {
     if (!isSubmitted) {
@@ -68,7 +50,6 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
     }
   };
 
-
   //функционал валидации поля ввода имени
   const handlePlaceNameChange = (e) => {
     if(e.target.value.length <= 2){
@@ -87,18 +68,6 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
   };
 
 
-  // const handlePlaceLinkChange = (e) => {
-  //   setPlaceLink(e.target.value);
-  // };
-
-  // const handlePlaceNameChange = (e) => {
-  //   setPlaceName(e.target.value);
-  // };
-
-
-
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -113,6 +82,7 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
 
     setIsValidLink(false);
     setIsValidName(false);
+    setIsFormValid(false)
 
   };
 
@@ -138,7 +108,6 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
         maxLength="30"
         minLength="2"
         onChange={handlePlaceNameChange}
-        onClose={onClose}
         notice={!isValidName ? validMessage : ""}
       />
       <Input
@@ -149,7 +118,6 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace, isSubmitted }) => {
         name="placeLinkInput"
         required={true}
         onChange={handlePlaceLinkChange}
-        onClose={onClose}
         notice={!isValidLink ? validMessageLink : ""}
       />
     </PopupWithForm>

@@ -59,7 +59,7 @@ const App = () => {
       .then((newCard) => {
         setCards([newCard, ...cards]);
         setIsAddPlacePopupOpen(false);
-        setTimeout(() => setIsSubmitted(false), 5000);
+        setTimeout(() => setIsSubmitted(false), 1000);
       })
       .catch((err) => {
         console.log(
@@ -95,7 +95,7 @@ const App = () => {
       .then(() => {
         setCards(cards.filter((item) => item._id !== card._id));
         setIsPopupWithSubmitOpen(false);
-        setTimeout(() => setIsSubmitted(false), 3000);
+        setTimeout(() => setIsSubmitted(false), 1000);
       })
       .catch((err) => {
         console.log(
@@ -113,7 +113,7 @@ const App = () => {
       .then((data) => {
         setCurrentUser(Object.assign(currentUser, { avatar: data.avatar }));
         setIsEditAvatarPopupOpen(false);
-        setTimeout(() => setIsSubmitted(false), 3000);
+        setTimeout(() => setIsSubmitted(false), 1000);
       })
       .catch((err) => {
         console.log(
@@ -131,7 +131,7 @@ const App = () => {
       .then((data) => {
         setCurrentUser(data);
         setIsEditProfilePopupOpen(false);
-        setTimeout(() => setIsSubmitted(false), 3000);
+        setTimeout(() => setIsSubmitted(false), 1000);
       })
       .catch((err) => {
         console.log(
